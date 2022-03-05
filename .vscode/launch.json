@@ -12,7 +12,7 @@
             // --play-mode
             // movie : load recored clip
             // camera : capture from video
-            "args": ["--play-mode", "movie"],
+            "args": ["--play-mode", "record"],
             "console": "integratedTerminal"
         },
         {

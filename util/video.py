@@ -5,8 +5,10 @@ fourcc = cv2.VideoWriter_fourcc(*'DIVX')
 record = False
 name = 'test'
 
+
 while True:
     ret, frame = capture.read()
+
     cv2.imshow("VideoFrame", frame)
 
     key = cv2.waitKey(1)
