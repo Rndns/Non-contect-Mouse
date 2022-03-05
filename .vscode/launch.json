@@ -5,10 +5,21 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
+            "name": "Python: Book Searcher",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/book_searcher.py",
+            // --play-mode
+            // movie : load recored clip
+            // camera : capture from video
+            "args": ["--play-mode", "movie"],
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "Python: Data Logger",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/util/video.py",
             "console": "integratedTerminal"
         }
     ]
