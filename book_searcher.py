@@ -6,7 +6,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Book Searcher Mode')
 
     parser.add_argument('--play-mode',
-                    required=True,
+                    required=False,
                     type=str,
                     default="movie",
                     help='book searcher main mode')

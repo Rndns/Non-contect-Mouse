@@ -10,8 +10,9 @@
             "request": "launch",
             "program": "${workspaceFolder}/book_searcher.py",
             // --play-mode
-            // movie : load recored clip
-            // camera : capture from video
+            // record : local db 생성
+            // movie : load recored clip -> gray -> imshow
+            // camera : capture from video -> grat -> imshow
             "args": ["--play-mode", "record"],
             "console": "integratedTerminal"
         },
