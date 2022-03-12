@@ -11,16 +11,9 @@
             "program": "${workspaceFolder}/book_searcher.py",
             // --play-mode
             // record : local db 생성
-            // movie : load recored clip -> gray -> imshow
             // camera : capture from video -> grat -> imshow
-            "args": ["--play-mode", "record"],
-            "console": "integratedTerminal"
-        },
-        {
-            "name": "Python: Data Logger",
-            "type": "python",
-            "request": "launch",
-            "program": "${workspaceFolder}/util/video.py",
+            // movie : load recored clip -> gray -> imshow
+            "args": ["--play-mode", "movie"],
             "console": "integratedTerminal"
         }
     ]

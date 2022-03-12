@@ -1,5 +1,8 @@
 import argparse
 from statistics import mode
+import util.video as video
+import util.load as load
+import util.show as show
 
 if __name__ == "__main__":
 
@@ -8,39 +11,27 @@ if __name__ == "__main__":
     parser.add_argument('--play-mode',
                     required=False,
                     type=str,
-                    default="movie",
+                    default="record",
                     help='book searcher main mode')
 
 
     opt = parser.parse_args()
 
     #frame = movie, camera, 
-    if opt.play_mode == "movie":
-        print("recored mode")
-        # movie load
-        # inference test
+    if opt.play_mode == "record":
+        print("record mode")
+        name = input('name:')
+        video.Video(name).record()
+
     elif opt.play_mode == "camera":
         print("camera mode")
-        # camera load
-        # inferece test
-    elif opt.play_mode == "record":
-        # video.py
-        # video class call
+        show.Camera().cameraToGray()
+
+    elif opt.play_mode == "movie":
+        print('movie mode')
+        name = input('name:')
+        load.Load(name).movie()
         pass
+
     else:
         assert 0
-
-
-    while 1:
-      
-        # inference
-        pass
-
-        # if-else
-
-    
-
-        
-
-
-    
