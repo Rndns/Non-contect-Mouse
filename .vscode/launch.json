@@ -13,7 +13,10 @@
             // record : local db 생성
             // camera : capture from video -> grat -> imshow
             // movie : load recored clip -> gray -> imshow
-            "args": ["--play-mode", "movie"],
+            "args": ["--play-mode", "movie", 
+                        "--filename", "test0",
+                        "--db-path", "./video_db",
+                        "--debug-mode", "True"],
             "console": "integratedTerminal"
         }
     ]

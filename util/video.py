@@ -20,6 +20,9 @@ class Video:
             ret, frame = capture.read()
             cv2.imshow("VideoFrame", frame)
 
+            if ret == False:
+                break
+
             key = cv2.waitKey(1)
             
             # Capture stop

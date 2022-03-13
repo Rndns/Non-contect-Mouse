@@ -10,6 +10,9 @@ class Camera:
         while True:
             ret, frame = cap.read()
 
+            if ret == False:
+                break
+            
             gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
 
             cv2.imshow('gray', gray)
