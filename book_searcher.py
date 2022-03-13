@@ -4,6 +4,10 @@ import util.video as video
 import util.load as load
 import util.show as show
 
+import util.InputCtrl as inpCtrl
+
+import cv2
+
 import os
 
 if __name__ == "__main__":
@@ -47,6 +51,40 @@ if __name__ == "__main__":
     debug_mode = 1
     if opt.debug_mode == True:
         debug_mode = 0
+
+    inp = inpCtrl.intpuCtrl()
+
+    # class initialize
+    inp.initialize()
+
+    while True:
+        
+        # class process
+        inp.doProcess(opt.play_mode)
+
+        key = cv2.waitKey(1)
+        
+        # Capture stop
+        if key == 27: # ESC
+            break
+
+        # Video recode start
+        elif key == 114: # r
+            record = True
+            #video = cv2.VideoWriter(f'./video_db/{self.name}{cnt}.avi', fourcc, 30.0, (frame.shape[1], frame.shape[0]))
+        
+        # Video stop
+        elif key == 115: # s
+            record = False
+            #cnt += 1
+            #video.release()
+
+    # class finalize
+    inp.finalize()
+
+
+    
+    '''
     #frame = movie, camera, 
     if opt.play_mode == "record":
         print("record mode")
@@ -68,7 +106,4 @@ if __name__ == "__main__":
 
     else:
         assert 0
-
-
-
-# 폴더에 있는 파일을 전부 list 가져오기
+    '''
