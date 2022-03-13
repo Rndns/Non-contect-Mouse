@@ -15,7 +15,8 @@ class intpuCtrl:
         
 
     def finalize(self):
-        return NotImplemented
+        self.capture.release()
+        cv2.destroyAllWindows()
 
     def doProcess(self, play_mode="movie"):
         if play_mode == "record":
@@ -30,7 +31,7 @@ class intpuCtrl:
             self.recordDb()
 
         elif play_mode == "movie":
-            self.showDb()
+            return self.loadDb()
 
         else:
             assert 0
@@ -44,16 +45,14 @@ class intpuCtrl:
 
         return False
 
-    def loadDb(self, dbPath):
+    def loadDb(self):
         ret, frame = self.capture.read()
 
         if ret == False:
             return 
 
         # Image colorspace convert (Gray)
-        self.gray = cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
-
-        return False
+        return cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
 
     def showDb(self):
         ret, frame = self.capture.read()

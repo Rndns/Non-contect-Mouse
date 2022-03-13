@@ -54,33 +54,35 @@ if __name__ == "__main__":
 
     inp = inpCtrl.intpuCtrl()
 
-    # class initialize
-    inp.initialize()
+    for file in file_list_py:
+        # class initialize
+        inp.initialize(file)
 
-    while True:
-        
-        # class process
-        inp.doProcess(opt.play_mode)
+        while True:
+            # class process
+            img = inp.doProcess(opt.play_mode)
 
-        key = cv2.waitKey(1)
-        
-        # Capture stop
-        if key == 27: # ESC
-            break
+            # cv2.imshow('to gray', img)
 
-        # Video recode start
-        elif key == 114: # r
-            record = True
-            #video = cv2.VideoWriter(f'./video_db/{self.name}{cnt}.avi', fourcc, 30.0, (frame.shape[1], frame.shape[0]))
-        
-        # Video stop
-        elif key == 115: # s
-            record = False
-            #cnt += 1
-            #video.release()
+            key = cv2.waitKey(1)
 
-    # class finalize
-    inp.finalize()
+            # Capture stop
+            if key == 27: # ESC
+                break
+
+            # Video recode start
+            elif key == 114: # r
+                record = True
+                #video = cv2.VideoWriter(f'./video_db/{self.name}{cnt}.avi', fourcc, 30.0, (frame.shape[1], frame.shape[0]))
+            
+            # Video stop
+            elif key == 115: # s
+                record = False
+                #cnt += 1
+                #video.release()
+
+        # class finalize
+        inp.finalize()
 
 
     
