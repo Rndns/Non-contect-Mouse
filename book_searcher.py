@@ -70,4 +70,5 @@ if __name__ == "__main__":
         assert 0
 
 
+
 # 폴더에 있는 파일을 전부 list 가져오기
