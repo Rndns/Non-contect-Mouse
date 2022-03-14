@@ -1,25 +1,19 @@
 import argparse
 from statistics import mode
-import util.video as video
-import util.load as load
-import util.show as show
+import cv2
+import os
 
 import util.InputCtrl as inpCtrl
 
-import cv2
-
-import os
 
 if __name__ == "__main__":
-
     parser = argparse.ArgumentParser(description='Book Searcher Mode')
 
     parser.add_argument('--play-mode',
                     required=False,
                     type=str,
-                    default="record",
+                    default="video",
                     help='book searcher main mode')
-
     
     parser.add_argument('--filename',
                     required=False,
@@ -39,22 +33,20 @@ if __name__ == "__main__":
                     default="False",
                     help='book searcher main mode')
 
-
-
     opt = parser.parse_args()
-
     
     path = opt.db_path
     file_list = os.listdir(path)
     file_list_py = [path + '/' + file for file in file_list if file.endswith(".avi")]
 
-    debug_mode = 1
-    if opt.debug_mode == True:
-        debug_mode = 0
+    file_list_py = file_list_py if opt.play_mode == 'load' else [0]
+    
+    debug_mode = 0 if opt.debug_mode else 1
 
     inp = inpCtrl.intpuCtrl()
 
     for file in file_list_py:
+
         # class initialize
         inp.initialize(file)
 
@@ -62,9 +54,13 @@ if __name__ == "__main__":
             # class process
             img = inp.doProcess(opt.play_mode)
 
-            # cv2.imshow('to gray', img)
+            # debug_mode(Ture:0, False:1)
+            key = cv2.waitKey(debug_mode)
 
-            key = cv2.waitKey(1)
+            if not key:
+                break
+
+            cv2.imshow('hand', img)
 
             # Capture stop
             if key == 27: # ESC
@@ -73,7 +69,7 @@ if __name__ == "__main__":
             # Video recode start
             elif key == 114: # r
                 record = True
-                #video = cv2.VideoWriter(f'./video_db/{self.name}{cnt}.avi', fourcc, 30.0, (frame.shape[1], frame.shape[0]))
+                video = cv2.VideoWriter(f'./video_db/{self.name}{cnt}.avi', fourcc, 30.0, (frame.shape[1], frame.shape[0]))
             
             # Video stop
             elif key == 115: # s
@@ -81,31 +77,8 @@ if __name__ == "__main__":
                 #cnt += 1
                 #video.release()
 
+            if record == True:
+                video.write(frame)
+
         # class finalize
         inp.finalize()
-
-
-    
-    '''
-    #frame = movie, camera, 
-    if opt.play_mode == "record":
-        print("record mode")
-        #name = input('name:')        
-        video.Video(opt.filename).record()
-
-    elif opt.play_mode == "camera":
-        print("camera mode")
-        show.Camera().cameraToGray()
-
-    elif opt.play_mode == "movie":
-        print('movie mode')
-        #name = input('name:')        
-        for index, filename in enumerate(file_list_py):
-            
-            load.Load().movie(filename, debug_mode)
-            print(f"{index} - {filename} proc done")
-        pass
-
-    else:
-        assert 0
-    '''

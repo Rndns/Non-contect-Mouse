@@ -7,43 +7,40 @@ class intpuCtrl:
     def __init__(self) -> None:
         pass
     
-    def initialize(self, filename = None):
-        if filename is None:
+    def initialize(self, file = None):
+        if file == 0:
             self.capture = cv2.VideoCapture(0)
         else:
-            self.capture = cv2.VideoCapture(filename)
-        
+            self.capture = cv2.VideoCapture(file)    
 
     def finalize(self):
         self.capture.release()
         cv2.destroyAllWindows()
 
-    def doProcess(self, play_mode="movie"):
-        if play_mode == "record":
-            print("record mode")
-            #name = input('name:')        
-            #video.Video(opt.filename).record()
+    def doProcess(self, play_mode="video"):
+        if play_mode == "video":
+            print("video mode")
+            self.videoDb()
 
+        elif play_mode == "load":
+            print("load mode")            
             self.loadDb()
 
-        elif play_mode == "camera":
-            print("camera mode")            
-            self.recordDb()
-
-        elif play_mode == "movie":
-            return self.loadDb()
+        elif play_mode == "show":
+            print("show mode")
+            return self.showDb()
 
         else:
             assert 0
         
 
-    def recordDb(self):
+    def videoDb(self):
         ret, frame = self.capture.read()
 
         if ret == False:
-            return 
+            return False
 
-        return False
+        return frame
 
     def loadDb(self):
         ret, frame = self.capture.read()
@@ -52,7 +49,8 @@ class intpuCtrl:
             return 
 
         # Image colorspace convert (Gray)
-        return cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
+        # cv2.cvtColor(frame, cv2.COLOR_RGB2GRAY)
+        return frame
 
     def showDb(self):
         ret, frame = self.capture.read()
