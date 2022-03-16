@@ -50,35 +50,26 @@ if __name__ == "__main__":
         # class initialize
         inp.initialize(file)
 
-        while True:
+        flag = True
+        record = False
+
+        while flag:
             # class process
-            img = inp.doProcess(opt.play_mode)
+            img, ret = inp.doProcess(opt.play_mode)
+            if not ret:
+                break
 
             # debug_mode(Ture:0, False:1)
             key = cv2.waitKey(debug_mode)
 
-            if not key:
-                break
-
             cv2.imshow('hand', img)
 
-            # Capture stop
-            if key == 27: # ESC
-                break
+            # ESC: close cap
+            flag = inp.keyProcess(key)
 
-            # Video recode start
-            elif key == 114: # r
-                record = True
-                video = cv2.VideoWriter(f'./video_db/{self.name}{cnt}.avi', fourcc, 30.0, (frame.shape[1], frame.shape[0]))
-            
-            # Video stop
-            elif key == 115: # s
-                record = False
-                #cnt += 1
-                #video.release()
-
-            if record == True:
-                video.write(frame)
+            # video - r: start / s: stop
+            if opt.play_mode == 'video':
+                record = inp.makeDb(key, record, img)
 
         # class finalize
         inp.finalize()
