@@ -7,6 +7,16 @@ import util.InputCtrl as inpCtrl
 import util.plamode as pMode
 
 
+def str2bool(v):
+    if isinstance(v, bool):
+        return v
+    if v.lower() in ('yes', 'true', 't', 'y', '1'):
+        return True
+    elif v.lower() in ('no', 'false', 'f', 'n', '0'):
+        return False
+    else:
+        raise argparse.ArgumentTypeError("Boolean value expected")
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Book Searcher Mode')
 
@@ -30,7 +40,7 @@ if __name__ == "__main__":
 
     parser.add_argument('--debug-mode',
                     required=False,
-                    type=bool,
+                    type=str2bool,
                     default="False",
                     help='book searcher main mode')
 
@@ -44,7 +54,7 @@ if __name__ == "__main__":
 
     file_list_py = file_list_py if opt.play_mode == 'load' else [0]
     
-    debug_mode = 0 if opt.debug_mode else 1
+    debug_mode = 0 if opt.debug_mode else 30
 
     inp = inpCtrl.intpuCtrl()
     inp.setPlaymode(opt.play_mode)
