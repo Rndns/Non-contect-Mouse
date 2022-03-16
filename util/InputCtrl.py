@@ -2,7 +2,8 @@ import cv2
 import os
 import mediapipe as mp
 
-from util.video import Video
+#from util.video import Video
+import util.plamode as pMode
 
 # load, show, video
 
@@ -17,20 +18,36 @@ class intpuCtrl:
         else:
             self.capture = cv2.VideoCapture(file)    
 
+    def setPlaymode(self, play_mode="video"):
+        if play_mode == "video":
+            self.play_mode = pMode.playmode.eVideo
+
+        elif play_mode == "load":
+            self.play_mode = pMode.playmode.eLoad
+
+        elif play_mode == "show":
+            self.play_mode = pMode.playmode.eShow
+
+        else :
+            assert 0
+
+    def getPlaymode(self):
+        return self.play_mode
+
 
     def finalize(self):
         self.capture.release()
         cv2.destroyAllWindows()
 
     # play_mode(video, load, show)
-    def doProcess(self, play_mode="video"):
-        if play_mode == "video":
+    def doProcess(self):
+        if self.play_mode == pMode.playmode.eVideo:
             return self.videoDb()
 
-        elif play_mode == "load":
+        elif self.play_mode == pMode.playmode.eLoad:
             return self.showDb()
 
-        elif play_mode == "show":
+        elif self.play_mode == pMode.playmode.eShow:
             return self.showDb()
 
         else:
@@ -38,11 +55,9 @@ class intpuCtrl:
 
 
     def videoDb(self):
-        ret, image = self.capture.read()
-        if not ret:
-            return image, ret
+        return self.capture.read()       
 
-        return image, ret
+        #return ret, image
 
     # # load: load db
     # def loadDb(self):
@@ -89,7 +104,7 @@ class intpuCtrl:
             min_detection_confidence=0.5,
             min_tracking_confidence=0.5) as hands:
         
-            ret, image = self.capture.read()
+            ret, image = self.videoDb() #self.capture.read()
             if not ret:
                 return image, ret
             image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
@@ -118,12 +133,14 @@ class intpuCtrl:
         return
 
 
-    def keyProcess(self, key=-1):
+    def keyProcess(self, key=-1, record=False, img=None):
         # Capture stop
         if key == 27: # ESC
             return False
 
         else:
+            if self.play_mode == pMode.playmode.eVideo:
+                self.makeDb(key, record=record, img=img)
             return True 
 
 

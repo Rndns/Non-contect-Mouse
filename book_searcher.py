@@ -4,6 +4,7 @@ import cv2
 import os
 
 import util.InputCtrl as inpCtrl
+import util.plamode as pMode
 
 
 if __name__ == "__main__":
@@ -34,6 +35,8 @@ if __name__ == "__main__":
                     help='book searcher main mode')
 
     opt = parser.parse_args()
+
+    print(pMode.playmode.eLoad)
     
     path = opt.db_path
     file_list = os.listdir(path)
@@ -44,32 +47,34 @@ if __name__ == "__main__":
     debug_mode = 0 if opt.debug_mode else 1
 
     inp = inpCtrl.intpuCtrl()
+    inp.setPlaymode(opt.play_mode)
 
     for file in file_list_py:
 
         # class initialize
         inp.initialize(file)
 
+
         flag = True
         record = False
 
         while flag:
             # class process
-            img, ret = inp.doProcess(opt.play_mode)
+            img, ret = inp.doProcess()
             if not ret:
                 break
 
+            cv2.imshow('hand', img)
+
             # debug_mode(Ture:0, False:1)
             key = cv2.waitKey(debug_mode)
-
-            cv2.imshow('hand', img)
 
             # ESC: close cap
             flag = inp.keyProcess(key)
 
             # video - r: start / s: stop
-            if opt.play_mode == 'video':
-                record = inp.makeDb(key, record, img)
+            #if opt.play_mode == 'video':
+            #    record = inp.makeDb(key, record, img)
 
         # class finalize
         inp.finalize()

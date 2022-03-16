@@ -10,10 +10,10 @@
             "request": "launch",
             "program": "${workspaceFolder}/book_searcher.py",
             // --play-mode
-            // record : local db 생성
-            // camera : capture from video -> grat -> imshow
-            // movie : load recored clip -> gray -> imshow
-            "args": ["--play-mode", "video", 
+            // video : local db 생성
+            // show : capture from video -> grat -> imshow
+            // load : load recored clip -> gray -> imshow
+            "args": ["--play-mode", "load", 
                         "--filename", "test0",
                         "--db-path", "./video_db",
                         "--debug-mode", "False"],
