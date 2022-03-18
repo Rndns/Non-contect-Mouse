@@ -23,7 +23,7 @@ if __name__ == "__main__":
     parser.add_argument('--play-mode',
                     required=False,
                     type=str,
-                    default="video",
+                    default="show",
                     help='book searcher main mode')
     
     parser.add_argument('--filename',
@@ -46,7 +46,7 @@ if __name__ == "__main__":
 
     opt = parser.parse_args()
 
-    print(pMode.playmode.eLoad)
+    print(pMode.playmode.eLoad, opt.play_mode)
     
     path = opt.db_path
     file_list = os.listdir(path)
@@ -56,7 +56,7 @@ if __name__ == "__main__":
     
     debug_mode = 0 if opt.debug_mode else 30
 
-    inp = inpCtrl.intpuCtrl()
+    inp = inpCtrl.inputCtrl()
     inp.setPlaymode(opt.play_mode)
 
     for file in file_list_py:
@@ -70,7 +70,7 @@ if __name__ == "__main__":
 
         while flag:
             # class process
-            img, ret = inp.doProcess()
+            ret, img = inp.doProcess()
             if not ret:
                 break
 
@@ -80,11 +80,7 @@ if __name__ == "__main__":
             key = cv2.waitKey(debug_mode)
 
             # ESC: close cap
-            flag = inp.keyProcess(key)
-
-            # video - r: start / s: stop
-            #if opt.play_mode == 'video':
-            #    record = inp.makeDb(key, record, img)
+            flag, record = inp.keyProcess(key, record, img)
 
         # class finalize
         inp.finalize()

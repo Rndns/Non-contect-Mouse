@@ -2,9 +2,9 @@ from enum import Enum
 
 class playmode(Enum):
     # video : local db 생성
-    # show : capture from video -> grat -> imshow
-    # load : load recored clip -> gray -> imshow
+    # show : capture from video -> mPipe -> imshow
+    # load : load recored clip -> mPipe -> imshow
 
-    eVideo = 1
-    eShow = 2
-    eLoad = 3
+    eVideo = 0
+    eShow = 1
+    eLoad = 2
