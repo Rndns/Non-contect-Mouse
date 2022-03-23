@@ -1,5 +1,4 @@
 import argparse
-from statistics import mode
 import cv2
 import os
 
@@ -23,7 +22,7 @@ if __name__ == "__main__":
     parser.add_argument('--play-mode',
                     required=False,
                     type=str,
-                    default="show",
+                    default="load",
                     help='book searcher main mode')
     
     parser.add_argument('--filename',

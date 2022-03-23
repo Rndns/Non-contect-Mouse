@@ -13,7 +13,7 @@
             // video : local db 생성
             // show : capture from video -> grat -> imshow
             // load : load recored clip -> gray -> imshow
-            "args": ["--play-mode", "show", 
+            "args": ["--play-mode", "load", 
                         "--filename", "test0",
                         "--db-path", "./video_db",
                         "--debug-mode", "False"],

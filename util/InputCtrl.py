@@ -1,4 +1,5 @@
 import cv2
+import os
 
 import util.plamode as pMode
 import util.mediaPipe as mPipe
@@ -6,7 +7,9 @@ import util.mediaPipe as mPipe
 # load, show, video
 
 class inputCtrl:
-    path = './video_db/test0.avi'
+    path_db = './video_db/test1.avi'
+    path_img = './images/%s/frame%4d.jpg'
+    dir = './images/%s'
     video = 'video'
     load = 'load'
     show = 'show'
@@ -20,7 +23,10 @@ class inputCtrl:
         if file == 0:
             self.capture = cv2.VideoCapture(0)
         else:
-            self.capture = cv2.VideoCapture(file)    
+            self.fileName = file.split('/')[-1][:-4]
+            self.count = 0
+            os.makedirs(self.dir %(self.fileName), exist_ok=True)
+            self.capture = cv2.VideoCapture(file)
 
 
     def setPlaymode(self, play_mode=None):
@@ -47,18 +53,7 @@ class inputCtrl:
 
     # play_mode(video, load, show)
     def doProcess(self):
-        # case 01
-        # if self.play_mode == pMode.playmode.eVideo:
-        #     return self.videoDb()
-
-        # elif self.play_mode == pMode.playmode.eLoad or pMode.playmode.eShow:
-        #     return self.showDb()
-
-        # else:
-        #     assert 0
-
-        # case 02
-        mDict = {0:self.videoDb(), 1:self.showDb(), 2:self.showDb}
+        mDict = {0:self.videoDb(), 1:self.showDb(), 2:self.showDb()}
         return mDict[self.play_mode.value]
 
 
@@ -68,10 +63,9 @@ class inputCtrl:
     # media pipe
     def showDb(self):
         ret, image = self.videoDb()
+        if not ret:
+            return ret, image
         return self.mPipe.handFrame(ret, image)
-
-    # def videoWrite(self):
-    #     return './video_db/test1.avi'
 
 
     def keyProcess(self, key=-1, record=False, img=None):
@@ -82,12 +76,15 @@ class inputCtrl:
         else:
             if self.play_mode == pMode.playmode.eVideo:
                 record = self.makeDb(key, record=record, img=img)
+            elif self.play_mode == pMode.playmode.eLoad:
+                cv2.imwrite(inputCtrl.path_img %(self.fileName, self.count), img)
+                self.count += 1
             return True, record
 
 
     def makeDb(self, key=-1, record=False, img=None):
         if (key == 114): # r
-            self.video = cv2.VideoWriter(inputCtrl.path, cv2.VideoWriter_fourcc(*inputCtrl.codec), 30.0, (640, 480))
+            self.video = cv2.VideoWriter(inputCtrl.path_db, cv2.VideoWriter_fourcc(*inputCtrl.codec), 30.0, (640, 480))
             record = True
 
         elif (key == 115) and record == True: # s
