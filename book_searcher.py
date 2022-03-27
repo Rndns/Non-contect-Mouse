@@ -2,8 +2,13 @@ import argparse
 import cv2
 import os
 
-import util.InputCtrl as inpCtrl
+import InputCtrl.InputCtrl as inpCtrl
 import util.plamode as pMode
+
+import Preprocessing.Preprocessing as prepro
+import GestureRecognition.GestureRecognition as gesture
+import ActionManager.ActionManager as act
+import Visualize.Visualize as visual
 
 
 def str2bool(v):
@@ -16,7 +21,10 @@ def str2bool(v):
     else:
         raise argparse.ArgumentTypeError("Boolean value expected")
 
-if __name__ == "__main__":
+
+
+
+if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Book Searcher Mode')
 
     parser.add_argument('--play-mode',
@@ -55,14 +63,17 @@ if __name__ == "__main__":
     
     debug_mode = 0 if opt.debug_mode else 30
 
-    inp = inpCtrl.inputCtrl()
+    inp = inpCtrl.InputCtrl()
     inp.setPlaymode(opt.play_mode)
 
-    for file in file_list_py:
+    prepro = prepro.Preprocessing()
+    gesture = gesture.GestureRecogntion()
+    act = act.ActionManager()
+    visual = visual.Visualize()
 
+    for file in file_list_py:
         # class initialize
         inp.initialize(file)
-
 
         flag = True
         record = False
@@ -72,8 +83,16 @@ if __name__ == "__main__":
             ret, img = inp.doProcess()
             if not ret:
                 break
+            
+            img = prepro.doImageConversion(img)
 
-            cv2.imshow('hand', img)
+            img, dict = gesture.doGestureRecogntion(img)
+
+            dict = act.searchService(dict)
+
+            img = visual.showPoint(dict, img)
+
+            cv2.imshow('debuge', img)
 
             # debug_mode(Ture:0, False:1)
             key = cv2.waitKey(debug_mode)

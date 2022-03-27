@@ -2,11 +2,11 @@ import cv2
 import os
 
 import util.plamode as pMode
-import util.mediaPipe as mPipe
+import util_demo.mediaPipe as mPipe
 
 # load, show, video
 
-class inputCtrl:
+class InputCtrl:
     path_db = './video_db/test1.avi'
     path_img = './images/%s/frame%4d.jpg'
     dir = './images/%s'
@@ -29,14 +29,19 @@ class inputCtrl:
             self.capture = cv2.VideoCapture(file)
 
 
+    def finalize(self):
+        self.capture.release()
+        cv2.destroyAllWindows()
+
+
     def setPlaymode(self, play_mode=None):
-        if play_mode == inputCtrl.video:
+        if play_mode == InputCtrl.video:
             self.play_mode = pMode.playmode.eVideo
 
-        elif play_mode == inputCtrl.load:
+        elif play_mode == InputCtrl.load:
             self.play_mode = pMode.playmode.eLoad
 
-        elif play_mode == inputCtrl.show:
+        elif play_mode == InputCtrl.show:
             self.play_mode = pMode.playmode.eShow
 
         else:
@@ -47,25 +52,22 @@ class inputCtrl:
         return self.play_mode
 
 
-    def finalize(self):
-        self.capture.release()
-        cv2.destroyAllWindows()
-
     # play_mode(video, load, show)
     def doProcess(self):
-        mDict = {0:self.videoDb(), 1:self.showDb(), 2:self.showDb()}
-        return mDict[self.play_mode.value]
+        # mDict = {0:self.videoDb(), 1:self.showDb(), 2:self.showDb()}
+        # return mDict[self.play_mode.value]
+        return self.capture.read()
 
 
-    def videoDb(self):
-        return self.capture.read()       
+    # def videoDb(self):
+    #     return self.capture.read()       
 
-    # media pipe
-    def showDb(self):
-        ret, image = self.videoDb()
-        if not ret:
-            return ret, image
-        return self.mPipe.handFrame(ret, image)
+    # # media pipe
+    # def showDb(self):
+    #     ret, image = self.videoDb()
+    #     if not ret:
+    #         return ret, image
+    #     return self.mPipe.handFrame(ret, image)
 
 
     def keyProcess(self, key=-1, record=False, img=None):
@@ -77,14 +79,14 @@ class inputCtrl:
             if self.play_mode == pMode.playmode.eVideo:
                 record = self.makeDb(key, record=record, img=img)
             elif self.play_mode == pMode.playmode.eLoad:
-                cv2.imwrite(inputCtrl.path_img %(self.fileName, self.count), img)
+                cv2.imwrite(InputCtrl.path_img %(self.fileName, self.count), img)
                 self.count += 1
             return True, record
 
 
     def makeDb(self, key=-1, record=False, img=None):
         if (key == 114): # r
-            self.video = cv2.VideoWriter(inputCtrl.path_db, cv2.VideoWriter_fourcc(*inputCtrl.codec), 30.0, (640, 480))
+            self.video = cv2.VideoWriter(InputCtrl.path_db, cv2.VideoWriter_fourcc(*InputCtrl.codec), 30.0, (640, 480))
             record = True
 
         elif (key == 115) and record == True: # s
