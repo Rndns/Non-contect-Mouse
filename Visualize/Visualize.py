@@ -4,6 +4,14 @@ class Visualize:
 
     def showPoint(self):
         pass
+        
+    # def drawResult(self):
+    #     '''
+    #     self.mPipe.drawResult()
+    #     self.hg.drawResult()
+    #     self.pg.drawResult()
+    #     '''
+    #     pass
 
     def debugMode(self):
         pass

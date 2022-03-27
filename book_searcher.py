@@ -77,20 +77,25 @@ if __name__ == '__main__':
 
         flag = True
         record = False
+        dict = {}
 
         while flag:
             # class process
             ret, img = inp.doProcess()
+
             if not ret:
                 break
+
+            # visual.setImage(img)
+            dict['image'] = img
+            dict = prepro.doImageConversion(dict)
             
-            img = prepro.doImageConversion(img)
+            dict = gesture.doGestureRecogntion(dict)
 
-            img, dict = gesture.doGestureRecogntion(img)
+            # gesture.drawResult(visual.getImage())
+            mMode = act.searchService(dict)
 
-            dict = act.searchService(dict)
-
-            img = visual.showPoint(dict, img)
+            img = visual.showPoint(img, mMode)
 
             cv2.imshow('debuge', img)
 

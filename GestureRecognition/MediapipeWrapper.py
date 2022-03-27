@@ -6,9 +6,10 @@ class MediaPipeWrapper:
     def __init__(self):
         pass
 
-    def searchHandPoint(self, image):
+    def searchHandPoint(self, dict):
         mp_drawing = mp.solutions.drawing_utils
         mp_hands = mp.solutions.hands
+        image = dict['image']
         
         with mp_hands.Hands(
             max_num_hands=1,
@@ -16,7 +17,12 @@ class MediaPipeWrapper:
             min_tracking_confidence=0.5) as hands:
 
             image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
+
+            image.flags.writeable = False
             results = hands.process(image)
+            image.flags.writeable = True   
+
+        return {'image':image, 'handsInfo':results}
 
         image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
 
@@ -25,5 +31,4 @@ class MediaPipeWrapper:
                 mp_drawing.draw_landmarks(
                     image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
         
-        list = [(1, 2), (3, 4)]
         return image, list

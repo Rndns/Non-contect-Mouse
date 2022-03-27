@@ -1,17 +1,24 @@
+import cv2
+
+
 class Preprocessing:
     def __init__(self) -> None:
         pass
 
-    def doImageConversion(self, img):
-        img_gray = self.grayConversion(img)
+    def doImageConversion(self, dict):
+        dict = self.grayConversion(dict)
 
-        img_jpg = self.jpgConversion(img_gray)
+        dict = self.jpgConversion(dict)
 
-        return img_jpg
+        return dict
 
-    def grayConversion(self, img):
-        return img
 
-    def jpgConversion(self, img):
-        return img
+    def grayConversion(self, dict):
+        dict['image'] = cv2.cvtColor(dict['image'], cv2.COLOR_RGB2GRAY)
+        dict['image'] = cv2.cvtColor(dict['image'], cv2.COLOR_GRAY2RGB)
+        return dict
+
+
+    def jpgConversion(self, dict):
+        return dict
 

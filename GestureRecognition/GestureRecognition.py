@@ -1,7 +1,6 @@
-import GestureRecognition.MediapipeWrapper as mPipe
-import GestureRecognition.HandGesture as hGesture
-import GestureRecognition.PingerGesture as pGesture
-
+from GestureRecognition import MediapipeWrapper as mPipe
+from GestureRecognition import HandGesture as hGesture
+from GestureRecognition import PingerGesture as pGesture
 
 class GestureRecogntion:
 
@@ -10,15 +9,18 @@ class GestureRecogntion:
         self.hg = hGesture.HandGesture()
         self.pg = pGesture.PingerGesture()
 
-    def doGestureRecogntion(self, img):
-        
-        img, list = self.mPipe.searchHandPoint(img)
+    def doGestureRecogntion(self, dict):        
 
-        int = self.hg.searchHandGesture(list)
+        # {'image':image, 'hands_info':results}
+        dict = self.mPipe.searchHandPoint(dict)
 
-        dict = self.pg.serchPingerGesture(int, list)
+        # {'image':image, 'hands_info':results, 'hand_sign_id':hand_sign_id}
+        hgResult = self.hg.searchHandGesture(dict)
 
-        return img, dict
+        # {'image':image, 'hands_info':results, 'hand_sign_id':hand_sign_id}
+        pgResult = self.pg.serchPingerGesture(hgResult)
+
+        return pgResult
 
 
 
