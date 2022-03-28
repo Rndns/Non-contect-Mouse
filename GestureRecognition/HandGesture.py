@@ -1,4 +1,3 @@
-import cv2 as cv
 import csv
 import copy
 import itertools
@@ -13,35 +12,35 @@ class HandGesture:
     def searchHandGesture(self, dict):
         keypoint_classifier = KeyPointClassifier()
 
-        with open('GestureRecognition/model/keypoint_classifier/keypoint_classifier_label.csv',
-                encoding='utf-8-sig') as f:
-            keypoint_classifier_labels = csv.reader(f)
-            keypoint_classifier_labels = [
-                row[0] for row in keypoint_classifier_labels
-            ]
+        # with open('GestureRecognition/model/keypoint_classifier/keypoint_classifier_label.csv',
+        #         encoding='utf-8-sig') as f:
+        #     keypoint_classifier_labels = csv.reader(f)
+        #     keypoint_classifier_labels = [
+        #         row[0] for row in keypoint_classifier_labels
+        #     ]
 
         results = dict['handsInfo']
-        image = dict['image']
+        debug_image = dict['image']
         dict['hand_sign_id'] = 1
 
-        image = cv.flip(image, 1)  # Mirror display
-        debug_image = copy.deepcopy(image)
+        # image = cv.flip(image, 1)  # Mirror display
+        # debug_image = copy.deepcopy(image)
 
         if results.multi_hand_landmarks is not None:
-                for hand_landmarks in results.multi_hand_landmarks:
-                    landmark_list = self.calc_landmark_list(debug_image, hand_landmarks)
+            for hand_landmarks in results.multi_hand_landmarks:
+                landmark_list = self.calc_landmark_list(debug_image, hand_landmarks)
 
-                    pre_processed_landmark_list = self.pre_process_landmark(
-                        landmark_list)
+                pre_processed_landmark_list = self.pre_process_landmark(
+                    landmark_list)
 
-                    # hand_sign_id = keypoint_classifier(pre_processed_landmark_list)
-                    # 0:rock / 1:open / 2:pinger
-                    dict['hand_sign_id'] = keypoint_classifier(pre_processed_landmark_list)
+                # hand_sign_id = keypoint_classifier(pre_processed_landmark_list)
+                # 0:rock / 1:open / 2:pinger
+                dict['hand_sign_id'] = keypoint_classifier(pre_processed_landmark_list)
 
         return dict
 
 
-    def calc_landmark_list(image, landmarks):
+    def calc_landmark_list(self, image, landmarks):
         image_width, image_height = image.shape[1], image.shape[0]
 
         landmark_point = []
@@ -57,7 +56,7 @@ class HandGesture:
         return landmark_point
 
 
-    def pre_process_landmark(landmark_list):
+    def pre_process_landmark(self, landmark_list):
         temp_landmark_list = copy.deepcopy(landmark_list)
 
         # Convert to relative coordinates
@@ -82,3 +81,7 @@ class HandGesture:
         temp_landmark_list = list(map(normalize_, temp_landmark_list))
 
         return temp_landmark_list
+
+    def test(self, img):
+        a = img
+        pass

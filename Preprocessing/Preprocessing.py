@@ -1,5 +1,5 @@
 import cv2
-
+import numpy as np
 
 class Preprocessing:
     def __init__(self) -> None:
@@ -14,8 +14,10 @@ class Preprocessing:
 
 
     def grayConversion(self, dict):
-        dict['image'] = cv2.cvtColor(dict['image'], cv2.COLOR_RGB2GRAY)
-        dict['image'] = cv2.cvtColor(dict['image'], cv2.COLOR_GRAY2RGB)
+        image = dict['image']
+        image = cv2.flip(image, 1)  # Mirror display
+        image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+        dict['image'] = image[..., np.newaxis]
         return dict
 
 
