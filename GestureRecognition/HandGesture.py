@@ -1,6 +1,7 @@
-import csv
 import copy
 import itertools
+
+from collections import deque
 
 from GestureRecognition.model import KeyPointClassifier
 
@@ -8,23 +9,17 @@ class HandGesture:
     def __init__(self) -> None:
         pass
 
-    # main
+    # Main
     def searchHandGesture(self, dict):
         keypoint_classifier = KeyPointClassifier()
-
-        # with open('GestureRecognition/model/keypoint_classifier/keypoint_classifier_label.csv',
-        #         encoding='utf-8-sig') as f:
-        #     keypoint_classifier_labels = csv.reader(f)
-        #     keypoint_classifier_labels = [
-        #         row[0] for row in keypoint_classifier_labels
-        #     ]
 
         results = dict['handsInfo']
         debug_image = dict['image']
         dict['hand_sign_id'] = 1
 
-        # image = cv.flip(image, 1)  # Mirror display
-        # debug_image = copy.deepcopy(image)
+        # Coordinate history 
+        history_length = 16
+        point_history = deque([[0,0]]*history_length, maxlen=history_length)
 
         if results.multi_hand_landmarks is not None:
             for hand_landmarks in results.multi_hand_landmarks:
@@ -33,10 +28,22 @@ class HandGesture:
                 pre_processed_landmark_list = self.pre_process_landmark(
                     landmark_list)
 
-                # hand_sign_id = keypoint_classifier(pre_processed_landmark_list)
                 # 0:rock / 1:open / 2:pinger
-                dict['hand_sign_id'] = keypoint_classifier(pre_processed_landmark_list)
+                hand_sign_id = keypoint_classifier(pre_processed_landmark_list)
 
+                # Point history
+                if hand_sign_id == 0:  
+                    point_history.append(landmark_list[0])
+                elif hand_sign_id == 2:
+                    point_history.append(landmark_list[8])
+                else:
+                    point_history.append([0, 0])
+
+        else:
+            point_history.append([0, 0])
+
+        dict['hand_sign_id'] = hand_sign_id
+        dict['point_history'] = point_history
         return dict
 
 
@@ -82,6 +89,5 @@ class HandGesture:
 
         return temp_landmark_list
 
-    def test(self, img):
-        a = img
-        pass
+
+

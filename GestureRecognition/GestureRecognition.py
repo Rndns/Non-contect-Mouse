@@ -15,12 +15,12 @@ class GestureRecogntion:
         dict = self.mPipe.searchHandPoint(dict)
 
         # {'image':image, 'hands_info':results, 'hand_sign_id':hand_sign_id}
-        hgResult = self.hg.searchHandGesture(dict)
+        dict = self.hg.searchHandGesture(dict)
 
         # {'image':image, 'hands_info':results, 'hand_sign_id':hand_sign_id}
-        pgResult = self.pg.serchPingerGesture(hgResult)
+        dict = self.pg.serchPingerGesture(dict)
 
-        return pgResult
+        return dict
 
 
 
