@@ -14,7 +14,7 @@ class ActionManager:
         
         mDict[self.mouse_mode.value]
         
-        return dict
+        return
 
 
     def setPlaymode(self, MouseMode=None):

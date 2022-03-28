@@ -16,7 +16,9 @@
             "args": ["--play-mode", "load", 
                         "--filename", "test0",
                         "--db-path", "./video_db",
-                        "--debug-mode", "False"],
+                        "--debug-mode", "False",
+                        "--debug-draw", "False"
+                    ],
             "console": "integratedTerminal"
         }
     ]

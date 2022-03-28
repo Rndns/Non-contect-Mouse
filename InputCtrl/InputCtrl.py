@@ -53,20 +53,7 @@ class InputCtrl:
 
     # play_mode(video, load, show)
     def doProcess(self):
-        # mDict = {0:self.videoDb(), 1:self.showDb(), 2:self.showDb()}
-        # return mDict[self.play_mode.value]
         return self.capture.read()
-
-
-    # def videoDb(self):
-    #     return self.capture.read()       
-
-    # # media pipe
-    # def showDb(self):
-    #     ret, image = self.videoDb()
-    #     if not ret:
-    #         return ret, image
-    #     return self.mPipe.handFrame(ret, image)
 
 
     def keyProcess(self, key=-1, record=False, img=None):

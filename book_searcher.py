@@ -51,6 +51,13 @@ if __name__ == '__main__':
                     default="False",
                     help='book searcher main mode')
 
+    parser.add_argument('--debug-draw',
+                    required=False,
+                    type=str2bool,
+                    default="False",
+                    help='book searcher main mode')
+
+
     opt = parser.parse_args()
 
     print(pMode.playmode.eLoad, opt.play_mode)
@@ -93,9 +100,9 @@ if __name__ == '__main__':
             dict = gesture.doGestureRecogntion(dict)
 
             # gesture.drawResult(visual.getImage())
-            mMode = act.doService(dict)
+            act.doService(dict)
 
-            img = visual.showPoint(img, mMode)
+            img = visual.showPoint(dict, opt.debug_draw)
 
             cv2.imshow('debuge', img)
 

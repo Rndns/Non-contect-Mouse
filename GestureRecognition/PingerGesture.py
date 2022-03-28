@@ -18,14 +18,9 @@ class PingerGesture:
         results = dict['handsInfo']
         debug_image = dict['image']
         point_history = dict['point_history']
-        hand_sign_id = dict['hand_sign_id']
-
-        # Finger gesture history
-        history_length = 16
-        finger_gesture_history = deque(maxlen=history_length)
 
         if results.multi_hand_landmarks is not None:
-            
+        
             # normalized
             pre_processed_point_history_list = self.pre_process_point_history(debug_image, point_history)
 
@@ -73,8 +68,8 @@ class PingerGesture:
                 dict['MouseMode'] = mMode.MouseMode.eForwardPage
             elif dict['finger_gesture_id'] == 2:
                 dict['MouseMode'] = mMode.MouseMode.eBackPage
-            elif dict['finger_gesture_id'] == 4:
+            elif dict['finger_gesture_id'] == 3:
                 dict['MouseMode'] = mMode.MouseMode.eMouseControl
             else:
-                dict['MouseMode'] = mMode.MouseMode.eNothing
+                assert 0
 
