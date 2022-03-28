@@ -1,9 +1,9 @@
 import copy
 import itertools
 from collections import deque
-from collections import Counter
 
 from GestureRecognition.model import PointHistoryClassifier
+from util import MouseMode as mMode
 
 
 class PingerGesture:
@@ -18,6 +18,7 @@ class PingerGesture:
         results = dict['handsInfo']
         debug_image = dict['image']
         point_history = dict['point_history']
+        hand_sign_id = dict['hand_sign_id']
 
         # Finger gesture history
         history_length = 16
@@ -30,17 +31,13 @@ class PingerGesture:
 
             # Finger gesture classification
             finger_gesture_id = point_history_classifier(pre_processed_point_history_list)
-
-            # Calculates the gesture IDs in the latest detection
-            # finger_gesture_history.append(finger_gesture_id)
-
-            # most_common_fg_id = Counter(
-                # finger_gesture_history).most_common()
             
         else:
             finger_gesture_id = -1
         
         dict['finger_gesture_id'] = finger_gesture_id
+
+        self.seachMouseMode(dict)
 
         return dict
 
@@ -66,3 +63,18 @@ class PingerGesture:
             itertools.chain.from_iterable(temp_point_history))
 
         return temp_point_history
+
+    
+    def seachMouseMode(self, dict):
+        if dict['hand_sign_id'] == 2:
+            if dict['finger_gesture_id'] == 0:
+                dict['MouseMode'] = mMode.MouseMode.eClick
+            elif dict['finger_gesture_id'] == 1:
+                dict['MouseMode'] = mMode.MouseMode.eForwardPage
+            elif dict['finger_gesture_id'] == 2:
+                dict['MouseMode'] = mMode.MouseMode.eBackPage
+            elif dict['finger_gesture_id'] == 4:
+                dict['MouseMode'] = mMode.MouseMode.eMouseControl
+            else:
+                dict['MouseMode'] = mMode.MouseMode.eNothing
+

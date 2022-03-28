@@ -93,7 +93,7 @@ if __name__ == '__main__':
             dict = gesture.doGestureRecogntion(dict)
 
             # gesture.drawResult(visual.getImage())
-            mMode = act.searchService(dict)
+            mMode = act.doService(dict)
 
             img = visual.showPoint(img, mMode)
 

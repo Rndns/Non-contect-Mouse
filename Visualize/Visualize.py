@@ -2,7 +2,7 @@ class Visualize:
     def __init__(self) -> None:
         pass
 
-    def showPoint(self):
+    def showPoint(self, img, mMode):
         pass
         
     # def drawResult(self):

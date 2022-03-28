@@ -4,6 +4,7 @@ import itertools
 from collections import deque
 
 from GestureRecognition.model import KeyPointClassifier
+from util import MouseMode as mMode
 
 class HandGesture:
     def __init__(self) -> None:
@@ -34,10 +35,12 @@ class HandGesture:
                 # Point history
                 if hand_sign_id == 0:  
                     point_history.append(landmark_list[0])
+                    dict['MouseMode'] = mMode.MouseMode.eNothing
                 elif hand_sign_id == 2:
                     point_history.append(landmark_list[8])
                 else:
                     point_history.append([0, 0])
+                    dict['MouseMode'] = mMode.MouseMode.ePageScroll
 
         else:
             point_history.append([0, 0])

@@ -2,7 +2,6 @@ import cv2
 import os
 
 import util.plamode as pMode
-import util_demo.mediaPipe as mPipe
 
 # load, show, video
 
@@ -16,8 +15,8 @@ class InputCtrl:
     codec = 'DIVX'
 
     def __init__(self):
-        self.mPipe = mPipe.MediaPipe()
-    
+        pass
+
     # device(0) or db(name)
     def initialize(self, file = 0):
         if file == 0:
