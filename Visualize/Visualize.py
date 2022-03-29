@@ -7,11 +7,14 @@ from util import CvFpsCalc
 class Visualize:
     def __init__(self) -> None:
         pass
-    
+
     def showPoint(self, dict, draw):
         if not draw:
             return dict['image']
-            
+        
+        return self.showDebug()
+        
+    def showDebug(self, dict):
         cvFpsCalc = CvFpsCalc(buffer_len=10)
         results = dict['handsInfo']
         debug_image = dict['image']
@@ -71,7 +74,6 @@ class Visualize:
 
     def draw_bounding_rect(self, use_brect, image, brect):
         if use_brect:
-
             # Outer rectangle
             cv.rectangle(image, (brect[0], brect[1]), (brect[2], brect[3]),
                         (0, 0, 0), 1)

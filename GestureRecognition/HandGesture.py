@@ -22,6 +22,8 @@ class HandGesture:
 
         if results.multi_hand_landmarks is None:
             point_history.append([0, 0])
+            dict['point_history'] = point_history
+            dict['MouseMode'] = mMode.MouseMode.eNothing
             return dict
 
         
