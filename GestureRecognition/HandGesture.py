@@ -73,7 +73,7 @@ class HandGesture:
         temp_landmark_list = copy.deepcopy(landmark_list)
 
         # Convert to relative coordinates
-        '''
+        
         base_x, base_y = 0, 0
         for index, landmark_point in enumerate(temp_landmark_list):
             if index == 0:
@@ -81,8 +81,8 @@ class HandGesture:
 
             temp_landmark_list[index][0] = temp_landmark_list[index][0] - base_x
             temp_landmark_list[index][1] = temp_landmark_list[index][1] - base_y
+        
         '''
-
         base_x, base_y = landmark_point[0], landmark_point[1]
         index2 = 1
         for _, landmark_point in enumerate(temp_landmark_list[1:]):
@@ -90,6 +90,7 @@ class HandGesture:
             temp_landmark_list[index2][0] = temp_landmark_list[index2][0] - base_x
             temp_landmark_list[index2][1] = temp_landmark_list[index2][1] - base_y
             index2 += 1
+        '''
 
         # Convert to a one-dimensional list
         temp_landmark_list = list(

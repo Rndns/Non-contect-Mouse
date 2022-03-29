@@ -17,7 +17,7 @@
                         "--filename", "test0",
                         "--db-path", "./video_db",
                         "--debug-mode", "False",
-                        "--debug-draw", "False"
+                        "--debug-draw", "True"
                     ],
             "console": "integratedTerminal"
         }

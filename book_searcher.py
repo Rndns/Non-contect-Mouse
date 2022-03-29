@@ -95,14 +95,15 @@ if __name__ == '__main__':
 
             # visual.setImage(img)
             dict['image'] = img
-            dict = prepro.doImageConversion(dict)
             
-            dict = gesture.doGestureRecogntion(dict)
+            prepro.doImageConversion(dict)
+            
+            gesture.doGestureRecogntion(dict)
 
             # gesture.drawResult(visual.getImage())
             act.doService(dict)
 
-            img = visual.showPoint(dict, opt.debug_draw)
+            visual.showPoint(dict, opt.debug_draw)
 
             cv2.imshow('debuge', img)
 

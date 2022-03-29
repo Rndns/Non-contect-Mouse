@@ -9,18 +9,25 @@ class GestureRecogntion:
         self.hg = hGesture.HandGesture()
         self.pg = pGesture.PingerGesture()
 
+        self.aws_enabler = False
+
     def doGestureRecogntion(self, dict):        
-
+        self.doGRAWS(dict) if self.aws_enabler else self.doGRLocal(dict)
+        
+    def doGRLocal(self, dict):
         # {'image':image, 'hands_info':results}
-        dict = self.mPipe.searchHandPoint(dict)
+        self.mPipe.searchHandPoint(dict)
 
         # {'image':image, 'hands_info':results, 'hand_sign_id':hand_sign_id}
-        dict = self.hg.searchHandGesture(dict)
+        self.hg.searchHandGesture(dict)
 
         # {'image':image, 'hands_info':results, 'hand_sign_id':hand_sign_id}
-        dict = self.pg.serchFingerGesture(dict)
+        self.pg.serchFingerGesture(dict)
 
-        return dict
+    def doGRAWS(self, dict):
+        return NotImplemented
+
+
 
 
 

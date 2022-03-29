@@ -1,7 +1,7 @@
 import cv2 as cv
-import numbers as np
+import numpy as np
 import csv
-from util import CvFpsCalc
+from util.CvFpsCalc import CvFpsCalc
 
 
 class Visualize:
@@ -9,14 +9,15 @@ class Visualize:
         pass
 
     def showPoint(self, dict, draw):
-        if not draw:
+        if not draw: 
             return dict['image']
         
-        return self.showDebug()
-        
-    def showDebug(self, dict):
         cvFpsCalc = CvFpsCalc(buffer_len=10)
         results = dict['handsInfo']
+
+        if results.multi_hand_landmarks is None or results.multi_handedness is None:
+            return dict['image']
+
         debug_image = dict['image']
         action = dict['MouseMode']
 
@@ -45,7 +46,7 @@ class Visualize:
                 brect,
                 handedness,
                 keypoint_classifier_labels[dict['hand_sign_id']],
-                point_history_classifier_labels[dict['']],
+                point_history_classifier_labels[dict['finger_gesture_id']],
             )
 
         debug_image = self.draw_point_history(debug_image, dict['point_history'])
@@ -116,10 +117,12 @@ class Visualize:
                 1.0, (0, 0, 0), 4, cv.LINE_AA)
         cv.putText(image, "FPS:" + str(fps), (10, 30), cv.FONT_HERSHEY_SIMPLEX,
                 1.0, (255, 255, 255), 2, cv.LINE_AA)
-        cv.putText(image, "Action:" + action, (10, 430), cv.FONT_HERSHEY_SIMPLEX,
+        
+        cv.putText(image, "Action:" + action.name, (10, 430), cv.FONT_HERSHEY_SIMPLEX,
                 1.0, (0, 0, 0), 4, cv.LINE_AA)
-        cv.putText(image, "Action:" + action, (10, 430), cv.FONT_HERSHEY_SIMPLEX,
+        cv.putText(image, "Action:" + action.name, (10, 430), cv.FONT_HERSHEY_SIMPLEX,
                 1.0, (255, 255, 255), 2, cv.LINE_AA)
+        
 
         mode_string = ['Logging Key Point', 'Logging Point History']
         if 1 <= mode <= 2:
