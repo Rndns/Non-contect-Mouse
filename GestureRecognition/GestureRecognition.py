@@ -18,7 +18,7 @@ class GestureRecogntion:
         dict = self.hg.searchHandGesture(dict)
 
         # {'image':image, 'hands_info':results, 'hand_sign_id':hand_sign_id}
-        dict = self.pg.serchPingerGesture(dict)
+        dict = self.pg.serchFingerGesture(dict)
 
         return dict
 

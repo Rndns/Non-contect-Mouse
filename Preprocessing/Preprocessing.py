@@ -17,7 +17,7 @@ class Preprocessing:
         image = dict['image']
         image = cv2.flip(image, 1)  # Mirror display
         image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
-        dict['image'] = image[..., np.newaxis]
+        dict['image_gray'] = image[..., np.newaxis]
         return dict
 
 

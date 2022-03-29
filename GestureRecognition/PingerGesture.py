@@ -8,30 +8,43 @@ from util import MouseMode as mMode
 
 class PingerGesture:
     def __init__(self) -> None:
-        pass
+        self.point_history_classifier = PointHistoryClassifier()
 
     # Main
-    def serchPingerGesture(self, dict):
+    def serchFingerGesture(self, dict):
 
-        point_history_classifier = PointHistoryClassifier()
+        
         
         results = dict['handsInfo']
         debug_image = dict['image']
         point_history = dict['point_history']
 
+        '''
         if results.multi_hand_landmarks is not None:
         
             # normalized
             pre_processed_point_history_list = self.pre_process_point_history(debug_image, point_history)
 
             # Finger gesture classification
-            finger_gesture_id = point_history_classifier(pre_processed_point_history_list)
+            finger_gesture_id = self.point_history_classifier(pre_processed_point_history_list)
             
         else:
             finger_gesture_id = -1
-        
-        dict['finger_gesture_id'] = finger_gesture_id
 
+        dict['finger_gesture_id'] = finger_gesture_id
+        '''
+
+        if results.multi_hand_landmarks is None:
+            dict['finger_gesture_id'] = -1
+            self.seachMouseMode(dict)
+            return dict
+
+        # normalized
+        pre_processed_point_history_list = self.pre_process_point_history(debug_image, point_history)
+
+        # Finger gesture classification
+        dict['finger_gesture_id'] = self.point_history_classifier(pre_processed_point_history_list)
+        
         self.seachMouseMode(dict)
 
         return dict
@@ -61,6 +74,7 @@ class PingerGesture:
 
     
     def seachMouseMode(self, dict):
+        
         if dict['hand_sign_id'] == 2:
             if dict['finger_gesture_id'] == 0:
                 dict['MouseMode'] = mMode.MouseMode.eClick
@@ -72,4 +86,14 @@ class PingerGesture:
                 dict['MouseMode'] = mMode.MouseMode.eMouseControl
             else:
                 assert 0
+        '''
+        if dict['hand_sign_id'] != 2:
+            return
+
+        dictValue = dict['finger_gesture_id']
+
+        assert( dictValue < 4)
+
+        dict['MouseMode'] = mMode.MouseMode[dictValue]
+        '''
 
