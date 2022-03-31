@@ -8,18 +8,18 @@ class Visualize:
     def __init__(self) -> None:
         pass
 
-    def showPoint(self, dict, draw):
+    def showPoint(self, gesture, draw):
         if not draw: 
-            return dict['image']
+            return gesture['image']
         
         cvFpsCalc = CvFpsCalc(buffer_len=10)
-        results = dict['handsInfo']
+        results = gesture['handsInfo']
 
         if results.multi_hand_landmarks is None or results.multi_handedness is None:
-            return dict['image']
+            return gesture['image']
 
-        debug_image = dict['image']
-        action = dict['MouseMode']
+        debug_image = gesture['image']
+        action = gesture['MouseMode']
 
         use_brect = True  
         fps = cvFpsCalc.get()
@@ -45,11 +45,11 @@ class Visualize:
                 debug_image,
                 brect,
                 handedness,
-                keypoint_classifier_labels[dict['hand_sign_id']],
-                point_history_classifier_labels[dict['finger_gesture_id']],
+                keypoint_classifier_labels[gesture['hand_sign_id']],
+                point_history_classifier_labels[gesture['finger_gesture_id']],
             )
 
-        debug_image = self.draw_point_history(debug_image, dict['point_history'])
+        debug_image = self.draw_point_history(debug_image, gesture['point_history'])
         debug_image = self.draw_info(debug_image, fps, mode, number, action)
 
         return debug_image

@@ -1,4 +1,3 @@
-import cv2
 import mediapipe as mp
 
 
@@ -6,10 +5,9 @@ class MediaPipeWrapper:
     def __init__(self):
         pass
 
-    def searchHandPoint(self, dict):
+    def searchHandPoint(self, gesture):
         mp_hands = mp.solutions.hands
-        debug_image = dict['image_proc']
-        # debug_image = copy.deepcopy(image)
+        debug_image = gesture['image_proc']
         
         with mp_hands.Hands(
             max_num_hands=1,
@@ -19,7 +17,5 @@ class MediaPipeWrapper:
             #debug_image = cv2.cvtColor(cv2.flip(debug_image, 1), cv2.COLOR_BGR2RGB)
 
             debug_image.flags.writeable = False
-            dict['handsInfo'] = hands.process(debug_image)
+            gesture['handsInfo'] = hands.process(debug_image)
             debug_image.flags.writeable = True 
-
-        return dict

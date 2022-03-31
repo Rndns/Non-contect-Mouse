@@ -10,14 +10,15 @@
             "request": "launch",
             "program": "${workspaceFolder}/book_searcher.py",
             // --play-mode
-            // video : local db 생성
-            // show : capture from video -> grat -> imshow
-            // load : load recored clip -> gray -> imshow
+            // video : local db create
+            // show : capture from video -> prepro -> deepLearning -> imshow
+            // load : load recored clip -> prepro -> deepLearning -> imshow
             "args": ["--play-mode", "load", 
                         "--filename", "test0",
                         "--db-path", "./video_db",
                         "--debug-mode", "False",
-                        "--debug-draw", "True"
+                        "--debug-draw", "True",
+                        "--aws-connect", "False",
                     ],
             "console": "integratedTerminal"
         }

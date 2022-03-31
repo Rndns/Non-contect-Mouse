@@ -6,7 +6,7 @@ import InputCtrl.InputCtrl as inpCtrl
 import util.plamode as pMode
 
 import Preprocessing.Preprocessing as prepro
-import GestureRecognition.GestureRecognition as gesture
+import GestureRecognition.GestureRecognition as gestureReco
 import ActionManager.ActionManager as act
 import Visualize.Visualize as visual
 
@@ -57,6 +57,12 @@ if __name__ == '__main__':
                     default="False",
                     help='book searcher main mode')
 
+    parser.add_argument('--aws-connect',
+                    required=False,
+                    type=str2bool,
+                    default="False",
+                    help='book searcher main mode')
+
 
     opt = parser.parse_args()
 
@@ -74,7 +80,7 @@ if __name__ == '__main__':
     inp.setPlaymode(opt.play_mode)
 
     prepro = prepro.Preprocessing()
-    gesture = gesture.GestureRecogntion()
+    gestureReco = gestureReco.GestureRecogntion(opt.aws_connect)
     act = act.ActionManager()
     visual = visual.Visualize()
 
@@ -84,7 +90,7 @@ if __name__ == '__main__':
 
         flag = True
         record = False
-        dict = {}
+        gesture = {}
 
         while flag:
             # class process
@@ -94,20 +100,20 @@ if __name__ == '__main__':
                 break
 
             # visual.setImage(img)
-            dict['image'] = img
+            gesture['image'] = img
             
-            prepro.doImageConversion(dict)
+            prepro.doImageConversion(gesture)
             
-            gesture.doGestureRecogntion(dict)
+            gestureReco.doGestureRecogntion(gesture)
 
             # gesture.drawResult(visual.getImage())
-            act.doService(dict)
+            act.doService(gesture)
 
-            visual.showPoint(dict, opt.debug_draw)
+            visual.showPoint(gesture, opt.debug_draw)
 
             # cv2.imshow('debuge', img)
 
-            # debug_mode(Ture:0, False:1)
+            # debug_mode(Fraim: Ture(0) / False(1))
             key = cv2.waitKey(debug_mode)
 
             # ESC: close cap

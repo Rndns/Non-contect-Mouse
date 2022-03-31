@@ -7,12 +7,12 @@ class ActionManager:
         self.mouse_mode = mMode.MouseMode.eNothing
 
     # Main
-    def doService(self, dict):
-        self.setPlaymode(dict['MouseMode'])
+    def doService(self, gesture):
+        self.setPlaymode(gesture['MouseMode'])
 
-        mDict = {0:self.doNothing(), 1:self.doPagescroll(), 2:self.doClick(), 3:self.doForwardPage(), 4:self.doBackPage(), 5:self.doMouseControl()}
+        mgesture = {0:self.doNothing(), 1:self.doPagescroll(), 2:self.doClick(), 3:self.doForwardPage(), 4:self.doBackPage(), 5:self.doMouseControl()}
         
-        mDict[self.mouse_mode.value]
+        mgesture[self.mouse_mode.value]
         
         return
 

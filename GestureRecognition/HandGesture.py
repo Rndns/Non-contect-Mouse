@@ -11,10 +11,10 @@ class HandGesture:
         self.keypoint_classifier = KeyPointClassifier()
 
     # Main
-    def searchHandGesture(self, dict):
-        results = dict['handsInfo']
-        debug_image = dict['image']
-        dict['hand_sign_id'] = 1
+    def searchHandGesture(self, gesture):
+        results = gesture['handsInfo']
+        debug_image = gesture['image']
+        gesture['hand_sign_id'] = 1
 
         # Coordinate history 
         history_length = 16
@@ -22,9 +22,9 @@ class HandGesture:
 
         if results.multi_hand_landmarks is None:
             point_history.append([0, 0])
-            dict['point_history'] = point_history
-            dict['MouseMode'] = mMode.MouseMode.eNothing
-            return dict
+            gesture['point_history'] = point_history
+            gesture['MouseMode'] = mMode.MouseMode.eNothing
+            return
 
         
         for hand_landmarks in results.multi_hand_landmarks:
@@ -33,24 +33,24 @@ class HandGesture:
             pre_processed_landmark_list = self.pre_process_landmark(
                 landmark_list)
 
-            # 0:rock / 1:open / 2:pinger
+            # 0:open / 1:close / 2:finger
             hand_sign_id = self.keypoint_classifier(pre_processed_landmark_list)
 
             # Point history
             if hand_sign_id == 1:  
                 point_history.append(landmark_list[0])
-                dict['MouseMode'] = mMode.MouseMode.ePageScroll
+                gesture['MouseMode'] = mMode.MouseMode.ePageScroll
             elif hand_sign_id == 2:
                 point_history.append(landmark_list[8])
             else:
                 point_history.append([0, 0])
-                dict['MouseMode'] = mMode.MouseMode.eNothing
+                gesture['MouseMode'] = mMode.MouseMode.eNothing
 
     
-        dict['hand_sign_id'] = hand_sign_id
-        dict['point_history'] = point_history
+        gesture['hand_sign_id'] = hand_sign_id
+        gesture['point_history'] = point_history
 
-        return dict
+        # return gesture
 
 
     def calc_landmark_list(self, image, landmarks):
