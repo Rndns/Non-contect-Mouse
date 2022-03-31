@@ -37,14 +37,14 @@ class HandGesture:
             hand_sign_id = self.keypoint_classifier(pre_processed_landmark_list)
 
             # Point history
-            if hand_sign_id == 0:  
+            if hand_sign_id == 1:  
                 point_history.append(landmark_list[0])
-                dict['MouseMode'] = mMode.MouseMode.eNothing
+                dict['MouseMode'] = mMode.MouseMode.ePageScroll
             elif hand_sign_id == 2:
                 point_history.append(landmark_list[8])
             else:
                 point_history.append([0, 0])
-                dict['MouseMode'] = mMode.MouseMode.ePageScroll
+                dict['MouseMode'] = mMode.MouseMode.eNothing
 
     
         dict['hand_sign_id'] = hand_sign_id

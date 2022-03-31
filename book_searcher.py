@@ -105,7 +105,7 @@ if __name__ == '__main__':
 
             visual.showPoint(dict, opt.debug_draw)
 
-            cv2.imshow('debuge', img)
+            # cv2.imshow('debuge', img)
 
             # debug_mode(Ture:0, False:1)
             key = cv2.waitKey(debug_mode)
