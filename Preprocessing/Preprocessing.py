@@ -15,11 +15,12 @@ class Preprocessing:
 
     def grayConversion(self, gesture):
         image = gesture['image']
-        image = cv2.flip(image, 1)  # Mirror display
-        image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
-        gesture['image_gray'] = image
-        image_proc = image[..., np.newaxis]        
-        gesture['image_proc'] = cv2.cvtColor(cv2.flip(image_proc, 1), cv2.COLOR_BGR2RGB)
+        image_f = cv2.flip(image, 1)  # Mirror display
+        gesture['image'] = image_f # Mirror display
+        # image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
+        # gesture['image_gray'] = image
+        # image_proc = image[..., np.newaxis]        
+        gesture['image_proc'] = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
 
 
     def jpgConversion(self, gesture):

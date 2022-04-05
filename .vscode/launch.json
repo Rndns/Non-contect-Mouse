@@ -5,6 +5,17 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Python: test client File",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/unit_test/client.py",
+            "args": [
+                "-u", "172.17.0.3:8000",
+            ],
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
             "name": "Python: Book Searcher",
             "type": "python",
             "request": "launch",
@@ -13,13 +24,20 @@
             // video : local db create
             // show : capture from video -> prepro -> deepLearning -> imshow
             // load : load recored clip -> prepro -> deepLearning -> imshow
-            "args": ["--play-mode", "load", 
-                        "--filename", "test0",
-                        "--db-path", "./video_db",
-                        "--debug-mode", "False",
-                        "--debug-draw", "True",
-                        "--aws-connect", "False",
-                    ],
+            "args": [
+                "--play-mode",
+                "load",
+                "--filename",
+                "test0",
+                "--db-path",
+                "./video_db",
+                "--debug-mode",
+                "False",
+                "--debug-draw",
+                "True",
+                "--aws-connect",
+                "False",
+            ],
             "console": "integratedTerminal"
         }
     ]

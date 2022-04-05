@@ -19,7 +19,7 @@ class FingerGesture:
         if results.multi_hand_landmarks is None:
             gesture['finger_gesture_id'] = -1
             self.seachMouseMode(gesture)
-            # return gesture
+            return
 
         # normalized
         pre_processed_point_history_list = self.pre_process_point_history(debug_image, point_history)
@@ -60,22 +60,23 @@ class FingerGesture:
         if gesture['hand_sign_id'] != 2:
             return
 
-        # if gesture['finger_gesture_id'] == 0:
-        #     gesture['MouseMode'] = mMode.MouseMode.eClick
-        # elif gesture['finger_gesture_id'] == 1:
-        #     gesture['MouseMode'] = mMode.MouseMode.eForwardPage
-        # elif gesture['finger_gesture_id'] == 2:
-        #     gesture['MouseMode'] = mMode.MouseMode.eBackPage
-        # elif gesture['finger_gesture_id'] == 3:
-        #     gesture['MouseMode'] = mMode.MouseMode.eMouseControl
-        # else:
-        #     assert 0
+        # gestureValue = gesture['finger_gesture_id']
+
+        # assert( gestureValue < 4)
+
+        # gesture['MouseMode'] = mMode.MouseMode[gestureValue]
+        
+        if gesture['finger_gesture_id'] == 0:
+            gesture['MouseMode'] = mMode.MouseMode.eClick
+        elif gesture['finger_gesture_id'] == 1:
+            gesture['MouseMode'] = mMode.MouseMode.eForwardPage
+        elif gesture['finger_gesture_id'] == 2:
+            gesture['MouseMode'] = mMode.MouseMode.eBackPage
+        elif gesture['finger_gesture_id'] == 3:
+            gesture['MouseMode'] = mMode.MouseMode.eMouseControl
+        else:
+            assert 0
 
 
-        gestureValue = gesture['finger_gesture_id']
-
-        assert( gestureValue < 4)
-
-        gesture['MouseMode'] = mMode.MouseMode[gestureValue]
         
 
