@@ -8,9 +8,12 @@
             "name": "Python: test client File",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/unit_test/client.py",
+            "program": "${workspaceFolder}/unit_test/client2.py",
             "args": [
                 "-u", "172.17.0.3:8000",
+                "-m", "fingerGesture", //fingerGesture //handGesture
+                "-d", "${workspaceFolder}/GestureRecognition/model/point_history_classifier/point_history.csv"
+                //"-d", "${workspaceFolder}/GestureRecognition/model/keypoint_classifier/keypoint.csv"
             ],
             "console": "integratedTerminal",
             "justMyCode": true
