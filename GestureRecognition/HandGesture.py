@@ -1,14 +1,32 @@
 import copy
 import itertools
+import numpy as np
 
 from collections import deque
 
 from GestureRecognition.model import KeyPointClassifier
 from util import MouseMode as mMode
+from util import TritonClient as TC
 
 class HandGesture:
-    def __init__(self) -> None:
-        self.keypoint_classifier = KeyPointClassifier()
+    def __init__(self, aws_enabler) -> None:
+        
+        history_length = 16
+        self.point_history = deque([[0,0]]*history_length, maxlen=history_length)
+
+        self.aws_enabler = aws_enabler
+        if aws_enabler:
+            url = '172.17.0.3:8000'
+            model_name = 'keypoint_onnx'
+            self.tritonClient = TC.TritonClient(url, model_name)
+        else:
+            self.keypoint_classifier = KeyPointClassifier()
+
+    def callKeypoint_onxx(self, input):
+        # triton class
+        input_np = np.array(input, dtype=np.float32).reshape(1,-1)
+        output = self.tritonClient.callModel(input_np)
+        return np.argmax(np.squeeze(output))
 
     # Main
     def searchHandGesture(self, gesture):
@@ -16,13 +34,10 @@ class HandGesture:
         debug_image = gesture['image']
         gesture['hand_sign_id'] = 1
 
-        # Coordinate history 
-        history_length = 16
-        point_history = deque([[0,0]]*history_length, maxlen=history_length)
 
         if results.multi_hand_landmarks is None:
-            point_history.append([0, 0])
-            gesture['point_history'] = point_history
+            self.point_history.append([0, 0])
+            gesture['point_history'] = self.point_history
             gesture['MouseMode'] = mMode.MouseMode.eNothing
             return
 
@@ -34,21 +49,24 @@ class HandGesture:
                 landmark_list)
 
             # 0:open / 1:close / 2:finger
-            hand_sign_id = self.keypoint_classifier(pre_processed_landmark_list)
-
+            if self.aws_enabler:
+                hand_sign_id = self.callKeypoint_onxx(pre_processed_landmark_list)
+            else:
+                hand_sign_id = self.keypoint_classifier(pre_processed_landmark_list)
+            print(hand_sign_id)
             # Point history
             if hand_sign_id == 1:  
-                point_history.append(landmark_list[0])
+                self.point_history.append(landmark_list[0])
                 gesture['MouseMode'] = mMode.MouseMode.ePageScroll
             elif hand_sign_id == 2:
-                point_history.append(landmark_list[8])
+                self.point_history.append(landmark_list[8])
             else:
-                point_history.append([0, 0])
+                self.point_history.append([0, 0])
                 gesture['MouseMode'] = mMode.MouseMode.eNothing
 
     
         gesture['hand_sign_id'] = hand_sign_id
-        gesture['point_history'] = point_history
+        gesture['point_history'] = self.point_history
 
         # return gesture
 

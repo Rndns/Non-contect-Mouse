@@ -1,13 +1,29 @@
 import copy
 import itertools
+import numpy as np
 
 from GestureRecognition.model import PointHistoryClassifier
 from util import MouseMode as mMode
+from util import TritonClient as TC
 
 
 class FingerGesture:
-    def __init__(self) -> None:
-        self.point_history_classifier = PointHistoryClassifier()
+    def __init__(self, aws_enabler) -> None:
+        
+        self.aws_enabler = aws_enabler
+        
+        if aws_enabler:
+            url = '172.17.0.3:8000'
+            model_name = 'pointHistory_onnx'
+            self.tritonClient = TC.TritonClient(url, model_name)
+        else:
+            self.point_history_classifier = PointHistoryClassifier()
+
+
+    def callPointHistory_onnx(self, input):
+        input_np = np.array(input, dtype=np.float32).reshape(1,-1)
+        output = self.tritonClient.callModel(input_np)
+        return np.argmax(np.squeeze(output))
 
     # Main
     def serchFingerGesture(self, gesture):
@@ -25,7 +41,10 @@ class FingerGesture:
         pre_processed_point_history_list = self.pre_process_point_history(debug_image, point_history)
 
         # Finger gesture classification
-        gesture['finger_gesture_id'] = self.point_history_classifier(pre_processed_point_history_list)
+        if self.aws_enabler:
+            gesture['finger_gesture_id'] = self.callPointHistory_onnx(pre_processed_point_history_list)
+        else:
+            gesture['finger_gesture_id'] = self.point_history_classifier(pre_processed_point_history_list)
         
         self.seachMouseMode(gesture)
 
@@ -56,7 +75,13 @@ class FingerGesture:
 
     
     def seachMouseMode(self, gesture):
-        
+        # assert(gesture['finger_gesture_id']!=0)
+        # print(gesture['finger_gesture_id'])
+        # print(gesture['hand_sign_id'])
+
+        if( gesture['finger_gesture_id'] == 2) :
+            a = 12
+
         if gesture['hand_sign_id'] != 2:
             return
 

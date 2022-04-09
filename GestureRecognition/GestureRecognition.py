@@ -5,30 +5,23 @@ from GestureRecognition import FingerGesture as fGesture
 class GestureRecogntion:
 
     def __init__(self, aws_enabler) -> None:
-        self.mPipe = mPipe.MediaPipeWrapper()
-        self.hg = hGesture.HandGesture()
-        self.pg = fGesture.FingerGesture()
 
         self.aws_enabler = aws_enabler
 
-    def doGestureRecogntion(self, gesture):        
-        self.doGRAWS(gesture) if self.aws_enabler else self.doGRLocal(gesture)
+        self.mPipe = mPipe.MediaPipeWrapper()
+        self.hg = hGesture.HandGesture(self.aws_enabler)
+        self.pg = fGesture.FingerGesture(self.aws_enabler)
+
         
-    def doGRLocal(self, gesture):
+
+    def doGestureRecogntion(self, gesture):
         # {'image':image, 'hands_info':results}
         self.mPipe.searchHandPoint(gesture)
 
-        # {'image':image, 'hands_info':results, 'hand_sign_id':hand_sign_id}
+        # {'hand_sign_id':range(0,3)}
         self.hg.searchHandGesture(gesture)
 
-        # {'image':image, 'hands_info':results, 'hand_sign_id':hand_sign_id}
+        # {'finger_gesture_id':range(0,3)}
         self.pg.serchFingerGesture(gesture)
-
-    def doGRAWS(self, gesture):
-        return NotImplemented
-
-
-
-
 
         
