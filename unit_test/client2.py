@@ -52,7 +52,7 @@ def getTestData(data_file, ):
     return X_train, X_test, y_train, y_test
 
 
-def callModel(model_name,
+def callModel(model_name, 
                         input_data,
                         model_metadata,
                         output_metadata,
