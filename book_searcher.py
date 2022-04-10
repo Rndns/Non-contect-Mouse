@@ -109,7 +109,7 @@ if __name__ == '__main__':
             # gesture.drawResult(visual.getImage())
             act.doService(gesture)
 
-            visual.showPoint(gesture, opt.debug_draw)
+            img = visual.showPoint(gesture, opt.debug_draw)
 
             # cv2.imshow('debuge', gesture['image'])
 

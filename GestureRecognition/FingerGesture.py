@@ -22,7 +22,7 @@ class FingerGesture:
 
     def callPointHistory_onnx(self, input):
         input_np = np.array(input, dtype=np.float32).reshape(1,-1)
-        output = self.tritonClient.callModel(input_np)
+        output = np.array(self.tritonClient.callModel(input_np)['outputs'][0]['data'], dtype=np.float32)
         return np.argmax(np.squeeze(output))
 
     # Main
@@ -76,7 +76,7 @@ class FingerGesture:
     
     def seachMouseMode(self, gesture):
         # assert(gesture['finger_gesture_id']!=0)
-        # print(gesture['finger_gesture_id'])
+        print(gesture['finger_gesture_id'])
         # print(gesture['hand_sign_id'])
 
         if( gesture['finger_gesture_id'] == 2) :

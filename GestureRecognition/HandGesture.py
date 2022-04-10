@@ -25,7 +25,7 @@ class HandGesture:
     def callKeypoint_onxx(self, input):
         # triton class
         input_np = np.array(input, dtype=np.float32).reshape(1,-1)
-        output = self.tritonClient.callModel(input_np)
+        output = np.array(self.tritonClient.callModel(input_np)['outputs'][0]['data'], dtype=np.float32)
         return np.argmax(np.squeeze(output))
 
     # Main
@@ -53,7 +53,6 @@ class HandGesture:
                 hand_sign_id = self.callKeypoint_onxx(pre_processed_landmark_list)
             else:
                 hand_sign_id = self.keypoint_classifier(pre_processed_landmark_list)
-            print(hand_sign_id)
             # Point history
             if hand_sign_id == 1:  
                 self.point_history.append(landmark_list[0])

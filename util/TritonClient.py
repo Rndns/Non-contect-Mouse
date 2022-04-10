@@ -54,7 +54,7 @@ class TritonClient():
                     )
 
         assert len(inputs) == 1        
-        inputs[0].set_data_from_numpy( input_data )#, binary_data=False )
+        inputs[0].set_data_from_numpy( input_data , binary_data=False )
 
         results = self.triton_client.infer(
             self.model_name,
