@@ -14,7 +14,7 @@ class GestureRecogntion:
 
         
 
-    def doGestureRecogntion(self, gesture):
+    def doGestureRecognition(self, gesture):
         # {'image':image, 'hands_info':results}
         self.mPipe.searchHandPoint(gesture)
 

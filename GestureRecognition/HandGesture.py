@@ -53,6 +53,7 @@ class HandGesture:
                 hand_sign_id = self.callKeypoint_onxx(pre_processed_landmark_list)
             else:
                 hand_sign_id = self.keypoint_classifier(pre_processed_landmark_list)
+            
             # Point history
             if hand_sign_id == 1:  
                 self.point_history.append(landmark_list[0])

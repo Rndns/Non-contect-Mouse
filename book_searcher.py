@@ -104,10 +104,11 @@ if __name__ == '__main__':
             
             prepro.doImageConversion(gesture)
             
-            gestureReco.doGestureRecogntion(gesture)
+            gestureReco.doGestureRecognition(gesture)
 
             # gesture.drawResult(visual.getImage())
             act.doService(gesture)
+
 
             img = visual.showPoint(gesture, opt.debug_draw)
 
