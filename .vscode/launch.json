@@ -5,7 +5,37 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python: Current File",
+            "name": "Python: main client",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/book_searcher_cli.py",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--play-mode",
+                "load",
+                "--filename",
+                "test0",
+                "--db-path",
+                "./video_db",
+                "--debug-mode",
+                "False",
+                "--debug-draw",
+                "True",
+                "--aws-connect",
+                "True",
+            ]
+        },
+        {
+            "name": "Python: Main Server",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/book_searcher_server.py",
+            "console": "integratedTerminal",
+            "justMyCode": true
+        },
+        {
+            "name": "Python: triton client ex",
             "type": "python",
             "request": "launch",
             "program": "${workspaceFolder}/unit_test/client.py",
@@ -28,7 +58,8 @@
                 "172.17.0.3:8000",
                 "-m",
                 "pointHistory_onnx", //keypoint_onnx //pointHistory_onnx
-                "-d","${workspaceFolder}/GestureRecognition/model/point_history_classifier/point_history.csv"
+                "-d",
+                "${workspaceFolder}/GestureRecognition/model/point_history_classifier/point_history.csv"
                 // "-d", "${workspaceFolder}/GestureRecognition/model/keypoint_classifier/keypoint.csv"
             ],
             "console": "integratedTerminal",
@@ -44,12 +75,18 @@
             // show : capture from video -> prepro -> deepLearning -> imshow
             // load : load recored clip -> prepro -> deepLearning -> imshow
             "args": [
-                "--play-mode", "load",
-                "--filename", "test0",
-                "--db-path", "./video_db",
-                "--debug-mode", "False",
-                "--debug-draw", "True",
-                "--aws-connect", "True",
+                "--play-mode",
+                "load",
+                "--filename",
+                "test0",
+                "--db-path",
+                "./video_db",
+                "--debug-mode",
+                "False",
+                "--debug-draw",
+                "True",
+                "--aws-connect",
+                "True",
             ],
             "console": "integratedTerminal"
         }

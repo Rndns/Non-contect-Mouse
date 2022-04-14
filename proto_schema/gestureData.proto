@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package gesetureData;
+
+message PointHistory {
+    int32 X_loc = 1;
+    int32 Y_loc = 2;
+}
+
+message Data {
+    enum HandSign {
+        HandSign_open = 0;
+        HandSign_close = 1;
+        HandSign_oneFinger = 2;
+    }
+
+    enum FingerSign {
+        FingerSign_stop = 0;
+        FingerSign_clockwise = 1;
+        FingerSign_counterClockwise = 2;
+        FingerSign_moving = 3;
+    }
+
+
+    HandSign hsign = 1;
+    FingerSign fsign = 2;
+    repeated PointHistory point = 3;
+}

@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package imagePrep;
+
+message Image {
+    bytes gPicture = 1;
+}
