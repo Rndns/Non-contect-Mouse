@@ -1,6 +1,8 @@
 import argparse
 import cv2
 import os
+import requests
+
 
 from proto_schema import gestureData_pb2 as gData, imagePrep_pb2 as imgPrep
 import InputCtrl.InputCtrl as inpCtrl
@@ -82,7 +84,6 @@ if __name__ == '__main__':
     gestureReco = gestureReco.GestureRecogntion(opt.aws_connect)
     act = act.ActionManager()
     visual = visual.Visualize()
-    
 
     for file in file_list_py:
         # class initialize
@@ -91,6 +92,7 @@ if __name__ == '__main__':
         flag = True
         record = False
         gesture = {}
+
 
         while flag:
             # class process
@@ -104,5 +106,39 @@ if __name__ == '__main__':
             
             # Image preprocess
             prepro.doImageConversion(gesture)
+
+            headers = {'Content-Type': 'application/encore'}
+            response = requests.post( \
+                url="http://127.0.0.1:10011/searching", \
+                headers=headers, \
+                data=gesture  \
+                )
+
+            if response.status_code == 200 :
+                response.raise_for_status()
+                retData = gData.Data()
+                retData.ParseFromString( response.content )
+                print(retData)
+            else:
+                print(f"Error : {response.status_code}")
+
+            # gesture.drawResult(visual.getImage())
+            act.doService(gesture)
+
+
+            img = visual.showPoint(gesture, opt.debug_draw)
+
+            # cv2.imshow('debuge', gesture['image'])
+
+            # debug_mode(Fraim: Ture(0) / False(1))
+            key = cv2.waitKey(debug_mode)
+
+            # ESC: close cap
+            flag, record = inp.keyProcess(key, record, img)
+
+        # class finalize
+        inp.finalize()
+                    
+
 
 
