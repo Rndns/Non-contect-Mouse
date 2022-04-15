@@ -11,6 +11,7 @@ import Preprocessing.Preprocessing as prepro
 import GestureRecognition.GestureRecognition as gestureReco
 import ActionManager.ActionManager as act
 import Visualize.Visualize as visual
+import util.MouseMode as mMode
 
 
 def str2bool(v):
@@ -80,10 +81,11 @@ if __name__ == '__main__':
     inp = inpCtrl.InputCtrl()
     inp.setPlaymode(opt.play_mode)
 
-    prepro = prepro.Preprocessing()
-    gestureReco = gestureReco.GestureRecogntion(opt.aws_connect)
-    act = act.ActionManager()
-    visual = visual.Visualize()
+    oPrepro = prepro.Preprocessing()
+    oGestureReco = gestureReco.GestureRecogntion(opt.aws_connect)
+    oAct = act.ActionManager()
+    oVisual = visual.Visualize()
+
 
     for file in file_list_py:
         # class initialize
@@ -105,13 +107,13 @@ if __name__ == '__main__':
             gesture['image'] = img
             
             # Image preprocess
-            prepro.doImageConversion(gesture)
+            protoData = oPrepro.doImageConversion(gesture)
 
             headers = {'Content-Type': 'application/encore'}
             response = requests.post( \
                 url="http://127.0.0.1:10011/searching", \
                 headers=headers, \
-                data=gesture  \
+                data=protoData  \
                 )
 
             if response.status_code == 200 :
@@ -123,10 +125,15 @@ if __name__ == '__main__':
                 print(f"Error : {response.status_code}")
 
             # gesture.drawResult(visual.getImage())
-            act.doService(gesture)
+            gesture['MouseMode'] = mMode.MouseMode(retData.mouseMode)
+            gesture['hand_sign_id'] = retData.hsign
+            gesture['finger_sign_id'] = retData.fsign
+            gesture['point_history'] = [ [data.X_loc, data.Y_loc] for data in retData.point ]
+
+            oAct.doService(gesture)
 
 
-            img = visual.showPoint(gesture, opt.debug_draw)
+            img = oVisual.showPoint(gesture, opt.debug_draw)
 
             # cv2.imshow('debuge', gesture['image'])
 

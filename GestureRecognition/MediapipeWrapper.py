@@ -7,7 +7,7 @@ class MediaPipeWrapper:
 
     def searchHandPoint(self, gesture):
         mp_hands = mp.solutions.hands
-        debug_image = gesture['image_proc']
+        debug_image = gesture['image']
         
         with mp_hands.Hands(
             max_num_hands=1,

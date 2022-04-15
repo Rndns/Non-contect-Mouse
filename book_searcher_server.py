@@ -24,7 +24,7 @@ app = FastAPI(
     }
 )
 
-GRG = GR.GestureRecogntion(aws_enabler=True)
+GRG = GR.GestureRecogntion(aws_enabler=True, url='172.17.0.2:8000')
 
 def protoRead(serializedData) -> dict:
     return dict()
@@ -75,31 +75,48 @@ async def gestureRecognation(pyload: bytes = Body(..., media_type = ContentsType
     # responce -proto
     retData = gData.Data()
 
-    if attr['MouseMode'] == 0:
+    valMouseMode = attr['MouseMode'].value
+    if valMouseMode == 0:
+        retData.mouseMode = gData.Data.MouseMode.MouseMode_eNothing
         retData.hsign = gData.Data.HandSign.HandSign_open
         retData.fsign = gData.Data.FingerSign.FingerSign_stop
-    elif attr['MouseMode'] == 1:
+    elif valMouseMode == 1:
+        retData.mouseMode = gData.Data.MouseMode.MouseMode_ePageScroll
         retData.hsign = gData.Data.HandSign.HandSign_close
         retData.fsign = gData.Data.FingerSign.FingerSign_moving
-    elif attr['MouseMode'] == 2:
+    elif valMouseMode == 2:
+        retData.mouseMode = gData.Data.MouseMode.MouseMode_eClick
         retData.hsign = gData.Data.HandSign.HandSign_oneFinger
         retData.fsign = gData.Data.FingerSign.FingerSign_moving
-    elif attr['MouseMode'] == 3:
+    elif valMouseMode == 3:
+        retData.mouseMode = gData.Data.MouseMode.MouseMode_eForwardPage
         retData.hsign = gData.Data.HandSign.HandSign_oneFinger
         retData.fsign = gData.Data.FingerSign.FingerSign_clockwise
-    elif attr['MouseMode'] == 4:
+    elif valMouseMode == 4:
+        retData.mouseMode = gData.Data.MouseMode.MouseMode_eBackPage
         retData.hsign = gData.Data.HandSign.HandSign_oneFinger
         retData.fsign = gData.Data.FingerSign.FingerSign_counterClockwise 
-    elif attr['MouseMode'] == 5:
+    elif valMouseMode == 5:
+        retData.mouseMode = gData.Data.MouseMode.MouseMode_eMouseControl
         retData.hsign = gData.Data.HandSign.HandSign_oneFinger
         retData.fsign = gData.Data.FingerSign.FingerSign_moving
 
-    for x, y in zip(attr['point_history'][-1][1], attr['point_history'][-1][2]):
-        pointLoc = gData.Pointhistory()
-        pointLoc.point.X_loc = x
-        pointLoc.point.Y_loc = y
-        retData.Point_History.append(pointLoc)
-
+    #for x, y in zip(attr['point_history'][-1][0], attr['point_history'][-1][1]):
+    for point in attr['point_history']:
+        retData.point.add(X_loc=point[0], Y_loc=point[1])
+    '''
+    for index in range(attr['point_history']):
+        point = attr['point_history'].popleft()
+        retData.point.add(X_loc=point[0], Y_loc=point[1])
+    '''
+    '''
+    pointLoc = gData.PointHistory()
+    print(point[0])
+    pointLoc.X_loc = (point[0])
+    pointLoc.Y_loc = point[1]
+    retData.point.append(pointLoc)
+    '''
+    #print(retData)
     return Response( retData.SerializeToString() )
 
 if __name__ == "__main__":

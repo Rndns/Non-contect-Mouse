@@ -13,10 +13,12 @@ class Visualize:
             return gesture['image']
         
         cvFpsCalc = CvFpsCalc(buffer_len=10)
+        '''
         results = gesture['handsInfo']
 
         if results.multi_hand_landmarks is None or results.multi_handedness is None:
             return gesture['image']
+        '''
 
         debug_image = gesture['image']
         action = gesture['MouseMode']
@@ -34,7 +36,7 @@ class Visualize:
                 encoding='utf-8-sig') as f:
             point_history_classifier_labels = csv.reader(f)
             point_history_classifier_labels = [row[0] for row in point_history_classifier_labels]
-
+        '''
         for hand_landmarks, handedness in zip(results.multi_hand_landmarks, results.multi_handedness):
             # Bounding box calculation
             brect = self.calc_bounding_rect(debug_image, hand_landmarks)
@@ -48,7 +50,7 @@ class Visualize:
                 keypoint_classifier_labels[gesture['hand_sign_id']],
                 point_history_classifier_labels[gesture['finger_gesture_id']],
             )
-
+        '''
         debug_image = self.draw_point_history(debug_image, gesture['point_history'])
         debug_image = self.draw_info(debug_image, fps, mode, number, action)
 

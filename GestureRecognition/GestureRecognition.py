@@ -4,13 +4,13 @@ from GestureRecognition import FingerGesture as fGesture
 
 class GestureRecogntion:
 
-    def __init__(self, aws_enabler) -> None:
+    def __init__(self, aws_enabler=True, url='172.17.0.2:8000') -> None:
 
         self.aws_enabler = aws_enabler
 
         self.mPipe = mPipe.MediaPipeWrapper()
-        self.hg = hGesture.HandGesture(self.aws_enabler)
-        self.pg = fGesture.FingerGesture(self.aws_enabler)
+        self.hg = hGesture.HandGesture(self.aws_enabler, url)
+        self.pg = fGesture.FingerGesture(self.aws_enabler, url)
 
         
 

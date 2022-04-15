@@ -13,8 +13,6 @@ class ActionManager:
         mgesture = {0:self.doNothing(), 1:self.doPagescroll(), 2:self.doClick(), 3:self.doForwardPage(), 4:self.doBackPage(), 5:self.doMouseControl()}
         
         mgesture[self.mouse_mode.value]
-        
-        return
 
 
     def setPlaymode(self, MouseMode=None):

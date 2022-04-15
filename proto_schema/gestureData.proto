@@ -21,8 +21,17 @@ message Data {
         FingerSign_moving = 3;
     }
 
+    enum MouseMode {
+        MouseMode_eNothing = 0;
+        MouseMode_ePageScroll = 1;
+        MouseMode_eClick = 2;
+        MouseMode_eForwardPage = 3;
+        MouseMode_eBackPage = 4;
+        MouseMode_eMouseControl = 5;
+    }
 
     HandSign hsign = 1;
     FingerSign fsign = 2;
     repeated PointHistory point = 3;
+    MouseMode mouseMode  = 4;
 }

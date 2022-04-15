@@ -9,14 +9,14 @@ from util import MouseMode as mMode
 from util import TritonClient as TC
 
 class HandGesture:
-    def __init__(self, aws_enabler) -> None:
+    def __init__(self, aws_enabler, url) -> None:
         
         history_length = 16
         self.point_history = deque([[0,0]]*history_length, maxlen=history_length)
 
         self.aws_enabler = aws_enabler
         if aws_enabler:
-            url = '172.17.0.3:8000'
+            url = url
             model_name = 'keypoint_onnx'
             self.tritonClient = TC.TritonClient(url, model_name)
         else:

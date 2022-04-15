@@ -8,12 +8,11 @@ class Preprocessing:
         pass
 
     def doImageConversion(self, gesture):
-        gesture = self.grayConversion(gesture)
+        self.grayConversion(gesture)
 
         # protobuf
-        gesture = self.getSerializedData(gesture)
-
-        return gesture
+        return self.getSerializedData(gesture)
+         
 
 
     def grayConversion(self, gesture):
@@ -36,7 +35,7 @@ class Preprocessing:
         if error == False:
             assert 0
 
-        imgData.gPicture = np.ndarray.tobytes( encimg )
+        protoData.gPicture = np.ndarray.tobytes( encimg )
 
         return protoData.SerializeToString()
 

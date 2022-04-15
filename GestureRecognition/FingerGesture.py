@@ -8,12 +8,12 @@ from util import TritonClient as TC
 
 
 class FingerGesture:
-    def __init__(self, aws_enabler) -> None:
+    def __init__(self, aws_enabler, url) -> None:
         
         self.aws_enabler = aws_enabler
         
         if aws_enabler:
-            url = '172.17.0.3:8000'
+            url = url
             model_name = 'pointHistory_onnx'
             self.tritonClient = TC.TritonClient(url, model_name)
         else:
