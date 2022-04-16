@@ -65,8 +65,6 @@ if __name__ == '__main__':
 
 
     opt = parser.parse_args()
-
-    print(pMode.playmode.eLoad, opt.play_mode)
     
     path = opt.db_path
     file_list = os.listdir(path)
@@ -112,7 +110,7 @@ if __name__ == '__main__':
 
             img = visual.showPoint(gesture, opt.debug_draw)
 
-            # cv2.imshow('debuge', gesture['image'])
+            # cv2.imshow('debuge', gesture['image_origin'])
 
             # debug_mode(Fraim: Ture(0) / False(1))
             key = cv2.waitKey(debug_mode)

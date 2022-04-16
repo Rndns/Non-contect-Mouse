@@ -10,17 +10,17 @@ class Visualize:
 
     def showPoint(self, gesture, draw):
         if not draw: 
-            return gesture['image']
+            return gesture['image_origin']
         
         cvFpsCalc = CvFpsCalc(buffer_len=10)
         '''
         results = gesture['handsInfo']
 
         if results.multi_hand_landmarks is None or results.multi_handedness is None:
-            return gesture['image']
+            return gesture['image_origin']
         '''
 
-        debug_image = gesture['image']
+        debug_image = gesture['image_origin']
         action = gesture['MouseMode']
 
         use_brect = True  

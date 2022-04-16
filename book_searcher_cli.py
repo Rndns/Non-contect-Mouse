@@ -120,7 +120,6 @@ if __name__ == '__main__':
                 response.raise_for_status()
                 retData = gData.Data()
                 retData.ParseFromString( response.content )
-                print(retData)
             else:
                 print(f"Error : {response.status_code}")
 

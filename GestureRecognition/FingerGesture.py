@@ -79,8 +79,8 @@ class FingerGesture:
         print(gesture['finger_gesture_id'])
         # print(gesture['hand_sign_id'])
 
-        if( gesture['finger_gesture_id'] == 2) :
-            a = 12
+        # if( gesture['finger_gesture_id'] == 2) :
+        #     a = 12
 
         if gesture['hand_sign_id'] != 2:
             return

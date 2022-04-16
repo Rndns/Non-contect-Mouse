@@ -74,7 +74,7 @@ async def gestureRecognation(pyload: bytes = Body(..., media_type = ContentsType
     GRG.doGestureRecognition(attr)
     # responce -proto
     retData = gData.Data()
-
+    print(retData)
     valMouseMode = attr['MouseMode'].value
     if valMouseMode == 0:
         retData.mouseMode = gData.Data.MouseMode.MouseMode_eNothing
