@@ -6,13 +6,13 @@ from util.CvFpsCalc import CvFpsCalc
 
 class Visualize:
     def __init__(self) -> None:
-        pass
+        self.cvFpsCalc = CvFpsCalc(buffer_len=10)
 
     def showPoint(self, gesture, draw):
         if not draw: 
             return
         
-        cvFpsCalc = CvFpsCalc(buffer_len=10)
+        
 
         debug_image = gesture['image_origin']
         action = gesture['MouseMode']
@@ -22,7 +22,7 @@ class Visualize:
             return debug_image
 
         use_brect = True  
-        fps = cvFpsCalc.get()
+        fps = self.cvFpsCalc.get()
         mode = 0
         number = -1
 

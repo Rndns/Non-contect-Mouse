@@ -24,7 +24,7 @@ app = FastAPI(
     }
 )
 
-GRG = GR.GestureRecogntion(aws_enabler=True, url='172.17.0.2:8000')
+GRG = GR.GestureRecogntion(aws_enabler=True, url='127.0.0.1:8000')
 
 def protoRead(serializedData) -> dict:
     return dict()
