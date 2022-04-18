@@ -74,7 +74,6 @@ async def gestureRecognation(pyload: bytes = Body(..., media_type = ContentsType
     GRG.doGestureRecognition(attr)
     # responce -proto
     retData = gData.Data()
-    print(retData)
     valMouseMode = attr['MouseMode'].value
     if valMouseMode == 0:
         retData.mouseMode = gData.Data.MouseMode.MouseMode_eNothing
@@ -104,19 +103,10 @@ async def gestureRecognation(pyload: bytes = Body(..., media_type = ContentsType
     #for x, y in zip(attr['point_history'][-1][0], attr['point_history'][-1][1]):
     for point in attr['point_history']:
         retData.point.add(X_loc=point[0], Y_loc=point[1])
-    '''
-    for index in range(attr['point_history']):
-        point = attr['point_history'].popleft()
-        retData.point.add(X_loc=point[0], Y_loc=point[1])
-    '''
-    '''
-    pointLoc = gData.PointHistory()
-    print(point[0])
-    pointLoc.X_loc = (point[0])
-    pointLoc.Y_loc = point[1]
-    retData.point.append(pointLoc)
-    '''
-    #print(retData)
+    
+    for landmark in attr['hand_landmarks']:
+        retData.mark.add(x=landmark.x, y=landmark.y)
+
     return Response( retData.SerializeToString() )
 
 if __name__ == "__main__":

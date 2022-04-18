@@ -76,7 +76,6 @@ class FingerGesture:
     
     def seachMouseMode(self, gesture):
         # assert(gesture['finger_gesture_id']!=0)
-        print(gesture['finger_gesture_id'])
         # print(gesture['hand_sign_id'])
 
         # if( gesture['finger_gesture_id'] == 2) :

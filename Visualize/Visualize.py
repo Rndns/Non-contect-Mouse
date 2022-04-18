@@ -22,20 +22,21 @@ class Visualize:
 
         debug_image = gesture['image_origin']
         action = gesture['MouseMode']
+        landmarks = gesture['hand_landmarks']
 
         use_brect = True  
         fps = cvFpsCalc.get()
         mode = 0
         number = -1
 
-        with open('GestureRecognition/model/keypoint_classifier/keypoint_classifier_label.csv',
-                encoding='utf-8-sig') as f:
-            keypoint_classifier_labels = csv.reader(f)
-            keypoint_classifier_labels = [row[0] for row in keypoint_classifier_labels]
-        with open('GestureRecognition/model/point_history_classifier/point_history_classifier_label.csv',
-                encoding='utf-8-sig') as f:
-            point_history_classifier_labels = csv.reader(f)
-            point_history_classifier_labels = [row[0] for row in point_history_classifier_labels]
+        # with open('GestureRecognition/model/keypoint_classifier/keypoint_classifier_label.csv',
+        #         encoding='utf-8-sig') as f:
+        #     keypoint_classifier_labels = csv.reader(f)
+        #     keypoint_classifier_labels = [row[0] for row in keypoint_classifier_labels]
+        # with open('GestureRecognition/model/point_history_classifier/point_history_classifier_label.csv',
+        #         encoding='utf-8-sig') as f:
+        #     point_history_classifier_labels = csv.reader(f)
+        #     point_history_classifier_labels = [row[0] for row in point_history_classifier_labels]
         '''
         for hand_landmarks, handedness in zip(results.multi_hand_landmarks, results.multi_handedness):
             # Bounding box calculation
@@ -46,11 +47,14 @@ class Visualize:
             debug_image = self.draw_info_text(
                 debug_image,
                 brect,
-                handedness,
+                handedness = None,
                 keypoint_classifier_labels[gesture['hand_sign_id']],
                 point_history_classifier_labels[gesture['finger_gesture_id']],
             )
         '''
+        brect = self.calc_bounding_rect(debug_image, landmarks)
+        debug_image = self.draw_bounding_rect(use_brect, debug_image, brect)
+        
         debug_image = self.draw_point_history(debug_image, gesture['point_history'])
         debug_image = self.draw_info(debug_image, fps, mode, number, action)
 
@@ -62,9 +66,10 @@ class Visualize:
 
         landmark_array = np.empty((0, 2), int)
 
-        for _, landmark in enumerate(landmarks.landmark):
-            landmark_x = min(int(landmark.x * image_width), image_width - 1)
-            landmark_y = min(int(landmark.y * image_height), image_height - 1)
+        # for _, landmark in enumerate(landmarks.landmark):
+        for landmark in landmarks:
+            landmark_x = min(int(landmark[0] * image_width), image_width - 1)
+            landmark_y = min(int(landmark[1] * image_height), image_height - 1)
 
             landmark_point = [np.array((landmark_x, landmark_y))]
 

@@ -13,8 +13,8 @@ class HandGesture:
         
         history_length = 16
         self.point_history = deque([[0,0]]*history_length, maxlen=history_length)
-
         self.aws_enabler = aws_enabler
+
         if aws_enabler:
             url = url
             model_name = 'keypoint_onnx'

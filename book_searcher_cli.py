@@ -127,8 +127,8 @@ if __name__ == '__main__':
             gesture['MouseMode'] = mMode.MouseMode(retData.mouseMode)
             gesture['hand_sign_id'] = retData.hsign
             gesture['finger_sign_id'] = retData.fsign
-            gesture['point_history'] = [ [data.X_loc, data.Y_loc] for data in retData.point ]
-
+            gesture['point_history'] = [ [history.X_loc, history.Y_loc] for history in retData.point ]
+            gesture['hand_landmarks'] = [ [landmark.x, landmark.y] for landmark in retData.mark]
             oAct.doService(gesture)
 
 

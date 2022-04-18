@@ -8,7 +8,7 @@ class GestureRecogntion:
 
         self.aws_enabler = aws_enabler
 
-        self.mPipe = mPipe.MediaPipeWrapper()
+        self.mPipe = mPipe.MediaPipeWrapper(self.aws_enabler, url)
         self.hg = hGesture.HandGesture(self.aws_enabler, url)
         self.pg = fGesture.FingerGesture(self.aws_enabler, url)
 

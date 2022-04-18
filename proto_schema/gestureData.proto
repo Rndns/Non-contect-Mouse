@@ -7,6 +7,11 @@ message PointHistory {
     int32 Y_loc = 2;
 }
 
+message Landmarks {
+    float x = 1;
+    float y = 2;
+}
+
 message Data {
     enum HandSign {
         HandSign_open = 0;
@@ -34,4 +39,5 @@ message Data {
     FingerSign fsign = 2;
     repeated PointHistory point = 3;
     MouseMode mouseMode  = 4;
+    repeated Landmarks mark = 5;
 }
