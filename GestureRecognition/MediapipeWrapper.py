@@ -29,6 +29,10 @@ class MediaPipeWrapper:
             debug_image.flags.writeable = False
             gesture['handsInfo'] = hands.process(debug_image)
             debug_image.flags.writeable = True
+            
+            if gesture['handsInfo'].multi_hand_landmarks is None :
+                return
+            
             gesture['hand_landmarks'] = gesture['handsInfo'].multi_hand_landmarks[0].landmark
 
 

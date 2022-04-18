@@ -8,7 +8,7 @@ from proto_schema import gestureData_pb2 as gData, imagePrep_pb2 as imgPrep
 import InputCtrl.InputCtrl as inpCtrl
 import util.plamode as pMode
 import Preprocessing.Preprocessing as prepro
-import GestureRecognition.GestureRecognition as gestureReco
+# import GestureRecognition.GestureRecognition as gestureReco
 import ActionManager.ActionManager as act
 import Visualize.Visualize as visual
 import util.MouseMode as mMode
@@ -82,10 +82,9 @@ if __name__ == '__main__':
     inp.setPlaymode(opt.play_mode)
 
     oPrepro = prepro.Preprocessing()
-    oGestureReco = gestureReco.GestureRecogntion(opt.aws_connect)
+    # oGestureReco = gestureReco.GestureRecogntion(opt.aws_connect)
     oAct = act.ActionManager()
     oVisual = visual.Visualize()
-
 
     for file in file_list_py:
         # class initialize
@@ -131,10 +130,9 @@ if __name__ == '__main__':
             gesture['hand_landmarks'] = [ [landmark.x, landmark.y] for landmark in retData.mark]
             oAct.doService(gesture)
 
-
             img = oVisual.showPoint(gesture, opt.debug_draw)
 
-            # cv2.imshow('debuge', gesture['image'])
+            # cv2.imshow('debuge', gesture['image_origin'])
 
             # debug_mode(Fraim: Ture(0) / False(1))
             key = cv2.waitKey(debug_mode)

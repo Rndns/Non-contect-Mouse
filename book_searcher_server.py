@@ -104,6 +104,10 @@ async def gestureRecognation(pyload: bytes = Body(..., media_type = ContentsType
     for point in attr['point_history']:
         retData.point.add(X_loc=point[0], Y_loc=point[1])
     
+    if attr['handsInfo'].multi_hand_landmarks is None :
+        retData.mark.add(x=0, y=0)
+        return Response( retData.SerializeToString() )
+    
     for landmark in attr['hand_landmarks']:
         retData.mark.add(x=landmark.x, y=landmark.y)
 
