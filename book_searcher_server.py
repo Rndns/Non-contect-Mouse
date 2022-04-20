@@ -20,11 +20,13 @@ app = FastAPI(
         description=description,
         version="0.0.2",
         contact={
-        "e-mail" : "ddddddd@ggg.com"
-    }
+        "e-mail" : "ddddddd@ggg.com",
+        "url" : "3.37.99.246"
+    },
+        docs_url="/docs"
 )
 
-GRG = GR.GestureRecogntion(aws_enabler=True, url='127.0.0.1:8000')
+GRG = GR.GestureRecogntion(aws_enabler=True, url='172.17.0.2:8000')
 
 def protoRead(serializedData) -> dict:
     return dict()

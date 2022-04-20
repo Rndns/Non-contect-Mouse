@@ -18,8 +18,8 @@ class MediaPipeWrapper:
         mp_hands = mp.solutions.hands
         debug_image = gesture['image']
         
-        if self.aws_enabler:
-            self.callMeidapipe_onnx(gesture)
+        # if self.aws_enabler:
+        #     self.callMeidapipe_onnx(gesture)
 
         with mp_hands.Hands(
             max_num_hands=1,

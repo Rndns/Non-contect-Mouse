@@ -1,6 +1,5 @@
 import cv2 as cv
 import numpy as np
-import csv
 from util.CvFpsCalc import CvFpsCalc
 
 
@@ -17,6 +16,7 @@ class Visualize:
         debug_image = gesture['image_origin']
         action = gesture['MouseMode']
         landmarks = gesture['hand_landmarks']
+        point_history = gesture['point_history']
 
         if len(landmarks) == 1:
             return debug_image
@@ -52,7 +52,7 @@ class Visualize:
         brect = self.calc_bounding_rect(debug_image, landmarks)
         debug_image = self.draw_bounding_rect(use_brect, debug_image, brect)
         
-        debug_image = self.draw_point_history(debug_image, gesture['point_history'])
+        debug_image = self.draw_point_history(debug_image, point_history)
         debug_image = self.draw_info(debug_image, fps, mode, number, action)
 
         return debug_image

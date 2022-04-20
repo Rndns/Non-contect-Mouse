@@ -130,6 +130,8 @@ if __name__ == '__main__':
             gesture['hand_landmarks'] = [ [landmark.x, landmark.y] for landmark in retData.mark]
             oAct.doService(gesture)
 
+            oAct(gesture)
+
             img = oVisual.showPoint(gesture, opt.debug_draw)
 
             # cv2.imshow('debuge', gesture['image_origin'])
